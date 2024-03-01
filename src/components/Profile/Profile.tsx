@@ -3,7 +3,7 @@ import s from "./Profile.module.css";
 
 const Profile = () => {
   return (
-    <div className={s.content}>
+    <div>
       <div>
         <img
           src="https://cc-prod.scene7.com/is/image/CCProdAuthor/t-03-4?$pjpeg$&jpegSize=200&wid=720"

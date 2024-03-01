@@ -1,15 +1,20 @@
 import s from "./Post.module.css";
 
-const Post = () => {
+type PostProps = {
+  message: string;
+  likesCount: number;
+};
+
+const Post = (props: PostProps) => {
   return (
     <div className={s.item}>
       <img
         src="https://upload.wikimedia.org/wikipedia/ru/c/ce/Aang.png"
         alt=""
       />
-      post 1
+      {props.message}
       <div>
-        <span>like</span>
+        <span>{props.likesCount} like</span>
       </div>
     </div>
   );
