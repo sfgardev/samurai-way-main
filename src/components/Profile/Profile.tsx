@@ -1,12 +1,16 @@
+import { PostType } from "../../App";
 import MyPosts from "./MyPosts/MyPosts";
-import s from "./Profile.module.css";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 
-const Profile = () => {
+type ProfileProps = {
+  posts: PostType[];
+};
+
+const Profile = (props: ProfileProps) => {
   return (
     <div>
       <ProfileInfo />
-      <MyPosts />
+      <MyPosts posts={props.posts} />
     </div>
   );
 };
