@@ -4,13 +4,14 @@ import ProfileInfo from "./ProfileInfo/ProfileInfo";
 
 type ProfileProps = {
   state: ProfilePageType;
+  addPost: (postMessage: string) => void;
 };
 
 const Profile = (props: ProfileProps) => {
   return (
     <div>
       <ProfileInfo />
-      <MyPosts posts={props.state.posts} />
+      <MyPosts posts={props.state.posts} addPost={props.addPost} />
     </div>
   );
 };

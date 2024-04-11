@@ -5,6 +5,7 @@ import Post from "./Post/Post";
 
 type MyPostsProps = {
   posts: PostType[];
+  addPost: (postMessage: string) => void;
 };
 
 const MyPosts = (props: MyPostsProps) => {
@@ -15,8 +16,10 @@ const MyPosts = (props: MyPostsProps) => {
   const newPostElement = createRef<HTMLTextAreaElement>();
 
   const addPost = () => {
-    const text = newPostElement.current?.value;
-    alert(text);
+    debugger;
+    if (newPostElement.current) {
+      props.addPost(newPostElement.current.value);
+    }
   };
 
   return (

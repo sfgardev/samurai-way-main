@@ -56,4 +56,14 @@ const state: RootStateType = {
   },
 };
 
+export const addPost = (postMessage: string) => {
+  debugger;
+  const newPost: PostType = {
+    id: state.profilePage.posts.length + 1,
+    message: postMessage,
+    likesCount: 0,
+  };
+  state.profilePage.posts.push(newPost);
+};
+
 export default state;
