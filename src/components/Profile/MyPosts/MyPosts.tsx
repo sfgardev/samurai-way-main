@@ -5,7 +5,9 @@ import Post from "./Post/Post";
 
 type MyPostsProps = {
   posts: PostType[];
-  addPost: (postMessage: string) => void;
+  newPostText: string;
+  addPost: () => void;
+  updateNewPostText: (newText: string) => void;
 };
 
 const MyPosts = (props: MyPostsProps) => {
@@ -16,8 +18,12 @@ const MyPosts = (props: MyPostsProps) => {
   const newPostElement = createRef<HTMLTextAreaElement>();
 
   const addPost = () => {
+    props.addPost();
+  };
+
+  const onPostChange = () => {
     if (newPostElement.current) {
-      props.addPost(newPostElement.current.value);
+      props.updateNewPostText(newPostElement.current.value);
     }
   };
 
@@ -26,7 +32,11 @@ const MyPosts = (props: MyPostsProps) => {
       <h3>My posts</h3>
       <div>
         <div>
-          <textarea ref={newPostElement}></textarea>
+          <textarea
+            ref={newPostElement}
+            value={props.newPostText}
+            onChange={onPostChange}
+          />
         </div>
         <div>
           <button onClick={addPost}>Add post</button>

@@ -3,15 +3,21 @@ import MyPosts from "./MyPosts/MyPosts";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 
 type ProfileProps = {
-  state: ProfilePageType;
-  addPost: (postMessage: string) => void;
+  profilePage: ProfilePageType;
+  addPost: () => void;
+  updateNewPostText: (newText: string) => void;
 };
 
 const Profile = (props: ProfileProps) => {
   return (
     <div>
       <ProfileInfo />
-      <MyPosts posts={props.state.posts} addPost={props.addPost} />
+      <MyPosts
+        posts={props.profilePage.posts}
+        newPostText={props.profilePage.newPostText}
+        addPost={props.addPost}
+        updateNewPostText={props.updateNewPostText}
+      />
     </div>
   );
 };
