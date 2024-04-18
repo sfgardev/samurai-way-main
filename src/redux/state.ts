@@ -24,6 +24,7 @@ export type ProfilePageType = {
 export type MessagesPageType = {
   dialogs: DialogsType[];
   messages: MessageType[];
+  newMessageText: string;
 };
 
 export type RootStateType = {
@@ -57,6 +58,7 @@ export const state: RootStateType = {
       { id: 5, name: "Viktor" },
       { id: 6, name: "Valera" },
     ],
+    newMessageText: "it-kamasutra",
   },
 };
 
@@ -71,8 +73,23 @@ export const addPost = () => {
   rerenderEntireTree(state);
 };
 
+export const addMessage = () => {
+  const newMessage: MessageType = {
+    id: state.dialogsPage.messages.length + 1,
+    message: state.dialogsPage.newMessageText,
+  };
+  state.dialogsPage.messages.push(newMessage);
+  state.dialogsPage.newMessageText = "";
+  rerenderEntireTree(state);
+};
+
 export const updateNewPostText = (newText: string) => {
   state.profilePage.newPostText = newText;
+  rerenderEntireTree(state);
+};
+
+export const updateNewMessage = (newMessage: string) => {
+  state.dialogsPage.newMessageText = newMessage;
   rerenderEntireTree(state);
 };
 

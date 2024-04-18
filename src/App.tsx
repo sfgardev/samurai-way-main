@@ -13,6 +13,8 @@ type AppProps = {
   state: RootStateType;
   addPost: () => void;
   updateNewPostText: (newText: string) => void;
+  addMessage: () => void;
+  updateNewMessage: (newMessage: string) => void;
 };
 
 const App = (props: AppProps) => {
@@ -24,7 +26,13 @@ const App = (props: AppProps) => {
         <div className="app-wrapper-content">
           <Route
             path="/dialogs"
-            render={() => <Dialogs state={props.state.dialogsPage} />}
+            render={() => (
+              <Dialogs
+                state={props.state.dialogsPage}
+                addMessage={props.addMessage}
+                updateNewMessage={props.updateNewMessage}
+              />
+            )}
           />
           <Route
             path="/profile"
