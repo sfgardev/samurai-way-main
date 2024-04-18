@@ -1,4 +1,6 @@
-import { rerenderEntireTree } from "../render";
+let rerenderEntireTree = (state: RootStateType) => {
+  console.log("state changed");
+};
 
 export type PostType = {
   id: number;
@@ -60,6 +62,10 @@ export const state: RootStateType = {
     ],
     newMessageText: "it-kamasutra",
   },
+};
+
+export const subscribe = (observer: (state: RootStateType) => void) => {
+  rerenderEntireTree = observer;
 };
 
 export const addPost = () => {
