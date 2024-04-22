@@ -32,14 +32,39 @@ export type RootStateType = {
 
 export type StoreType = {
   _state: RootStateType;
-  getState: () => RootStateType;
   _callSubscriber: (state: RootStateType) => void;
-  addPost: () => void;
-  updateNewPostText: (newText: string) => void;
-  addMessage: () => void;
-  updateNewMessage: (newMessage: string) => void;
+  getState: () => RootStateType;
   subscribe: (observer: (state: RootStateType) => void) => void;
+  dispatch: (action: ActionsType) => void;
+  // addPost: () => void;
+  // updateNewPostText: (newText: string) => void;
+  // addMessage: () => void;
+  // updateNewMessage: (newMessage: string) => void;
 };
+
+type AddPostActionType = {
+  type: "ADD-POST";
+};
+
+type UpdateNewPostTextActionType = {
+  type: "UPDATE-NEW-POST-TEXT";
+  newText: string;
+};
+
+type AddMessageActionType = {
+  type: "ADD-MESSAGE";
+};
+
+type UpdateNewMessageActionType = {
+  type: "UPDATE-NEW-MESSAGE";
+  newMessage: string;
+};
+
+export type ActionsType =
+  | AddPostActionType
+  | UpdateNewPostTextActionType
+  | AddMessageActionType
+  | UpdateNewMessageActionType;
 
 const store: StoreType = {
   _state: {
@@ -71,42 +96,69 @@ const store: StoreType = {
       newMessageText: "it-kamasutra",
     },
   },
-  getState() {
-    return this._state;
-  },
   _callSubscriber() {
     console.log("state changed");
   },
-  addPost() {
-    const newPost: PostType = {
-      id: this._state.profilePage.posts.length + 1,
-      message: this._state.profilePage.newPostText,
-      likesCount: 0,
-    };
-    this._state.profilePage.posts.push(newPost);
-    this._state.profilePage.newPostText = "";
-    this._callSubscriber(this._state);
-  },
-  updateNewPostText(newText: string) {
-    this._state.profilePage.newPostText = newText;
-    this._callSubscriber(this._state);
-  },
-  addMessage() {
-    const newMessage: MessageType = {
-      id: this._state.dialogsPage.messages.length + 1,
-      message: this._state.dialogsPage.newMessageText,
-    };
-    this._state.dialogsPage.messages.push(newMessage);
-    this._state.dialogsPage.newMessageText = "";
-    this._callSubscriber(this._state);
-  },
-  updateNewMessage(newMessage: string) {
-    this._state.dialogsPage.newMessageText = newMessage;
-    this._callSubscriber(this._state);
+  getState() {
+    return this._state;
   },
   subscribe(observer: (state: RootStateType) => void) {
     this._callSubscriber = observer;
   },
+  dispatch(action: any) {
+    if (action.type === "ADD-POST") {
+      const newPost: PostType = {
+        id: this._state.profilePage.posts.length + 1,
+        message: this._state.profilePage.newPostText,
+        likesCount: 0,
+      };
+      this._state.profilePage.posts.push(newPost);
+      this._state.profilePage.newPostText = "";
+      this._callSubscriber(this._state);
+    } else if (action.type === "UPDATE-NEW-POST-TEXT") {
+      this._state.profilePage.newPostText = action.newText;
+      this._callSubscriber(this._state);
+    } else if (action.type === "ADD-MESSAGE") {
+      const newMessage: MessageType = {
+        id: this._state.dialogsPage.messages.length + 1,
+        message: this._state.dialogsPage.newMessageText,
+      };
+      this._state.dialogsPage.messages.push(newMessage);
+      this._state.dialogsPage.newMessageText = "";
+      this._callSubscriber(this._state);
+    } else if (action.type === "UPDATE-NEW-MESSAGE") {
+      this._state.dialogsPage.newMessageText = action.newMessage;
+      this._callSubscriber(this._state);
+    }
+  },
+
+  // addPost() {
+  //   const newPost: PostType = {
+  //     id: this._state.profilePage.posts.length + 1,
+  //     message: this._state.profilePage.newPostText,
+  //     likesCount: 0,
+  //   };
+  //   this._state.profilePage.posts.push(newPost);
+  //   this._state.profilePage.newPostText = "";
+  //   this._callSubscriber(this._state);
+  // },
+  // updateNewPostText(newText: string) {
+  //   this._state.profilePage.newPostText = newText;
+  //   this._callSubscriber(this._state);
+  // },
+  // addMessage() {
+  //   const newMessage: MessageType = {
+  //     id: this._state.dialogsPage.messages.length + 1,
+  //     message: this._state.dialogsPage.newMessageText,
+  //   };
+  //   this._state.dialogsPage.messages.push(newMessage);
+  //   this._state.dialogsPage.newMessageText = "";
+  //   this._callSubscriber(this._state);
+  // },
+  // updateNewMessage(newMessage: string) {
+  //   this._state.dialogsPage.newMessageText = newMessage;
+  //   this._callSubscriber(this._state);
+  // },
 };
 
 // let rerenderEntireTree = (state: RootStateType) => {

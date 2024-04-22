@@ -1,13 +1,14 @@
 import { createRef } from "react";
-import { MessagesPageType } from "../../redux/state";
+import { ActionsType, MessagesPageType } from "../../redux/state";
 import DialogItem from "./DialogItem/DialogItem";
 import s from "./Dialogs.module.css";
 import Message from "./Message/Message";
 
 type DialogsProps = {
   state: MessagesPageType;
-  addMessage: () => void;
-  updateNewMessage: (newMessage: string) => void;
+  dispatch: (action: ActionsType) => void;
+  // addMessage: () => void;
+  // updateNewMessage: (newMessage: string) => void;
 };
 
 const Dialogs = (props: DialogsProps) => {
@@ -23,13 +24,16 @@ const Dialogs = (props: DialogsProps) => {
 
   const addMessage = () => {
     if (newMessageElement.current) {
-      props.addMessage();
+      props.dispatch({ type: "ADD-MESSAGE" });
     }
   };
 
   const handleChangeMessage = () => {
     if (newMessageElement.current) {
-      props.updateNewMessage(newMessageElement.current.value);
+      props.dispatch({
+        type: "UPDATE-NEW-MESSAGE",
+        newMessage: newMessageElement.current.value,
+      });
     }
   };
 

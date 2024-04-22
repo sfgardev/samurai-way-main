@@ -7,14 +7,15 @@ import Navbar from "./components/Navbar/Navbar";
 import News from "./components/News/News";
 import Profile from "./components/Profile/Profile";
 import Settings from "./components/Settings/Settings";
-import { RootStateType } from "./redux/state";
+import { ActionsType, RootStateType } from "./redux/state";
 
 type AppProps = {
   state: RootStateType;
-  addPost: () => void;
-  updateNewPostText: (newText: string) => void;
-  addMessage: () => void;
-  updateNewMessage: (newMessage: string) => void;
+  dispatch: (action: ActionsType) => void;
+  // addPost: () => void;
+  // updateNewPostText: (newText: string) => void;
+  // addMessage: () => void;
+  // updateNewMessage: (newMessage: string) => void;
 };
 
 const App = (props: AppProps) => {
@@ -29,8 +30,9 @@ const App = (props: AppProps) => {
             render={() => (
               <Dialogs
                 state={props.state.dialogsPage}
-                addMessage={props.addMessage}
-                updateNewMessage={props.updateNewMessage}
+                dispatch={props.dispatch}
+                // addMessage={props.addMessage}
+                // updateNewMessage={props.updateNewMessage}
               />
             )}
           />
@@ -39,8 +41,9 @@ const App = (props: AppProps) => {
             render={() => (
               <Profile
                 profilePage={props.state.profilePage}
-                addPost={props.addPost}
-                updateNewPostText={props.updateNewPostText}
+                dispatch={props.dispatch}
+                // addPost={props.addPost}
+                // updateNewPostText={props.updateNewPostText}
               />
             )}
           />
