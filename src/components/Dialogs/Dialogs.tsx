@@ -1,5 +1,10 @@
 import { createRef } from "react";
-import { ActionsType, MessagesPageType } from "../../redux/state";
+import {
+  ActionsType,
+  MessagesPageType,
+  addMessageAC,
+  updateNewMessageAC,
+} from "../../redux/state";
 import DialogItem from "./DialogItem/DialogItem";
 import s from "./Dialogs.module.css";
 import Message from "./Message/Message";
@@ -7,8 +12,6 @@ import Message from "./Message/Message";
 type DialogsProps = {
   state: MessagesPageType;
   dispatch: (action: ActionsType) => void;
-  // addMessage: () => void;
-  // updateNewMessage: (newMessage: string) => void;
 };
 
 const Dialogs = (props: DialogsProps) => {
@@ -24,16 +27,13 @@ const Dialogs = (props: DialogsProps) => {
 
   const addMessage = () => {
     if (newMessageElement.current) {
-      props.dispatch({ type: "ADD-MESSAGE" });
+      props.dispatch(addMessageAC());
     }
   };
 
   const handleChangeMessage = () => {
     if (newMessageElement.current) {
-      props.dispatch({
-        type: "UPDATE-NEW-MESSAGE",
-        newMessage: newMessageElement.current.value,
-      });
+      props.dispatch(updateNewMessageAC(newMessageElement.current.value));
     }
   };
 
