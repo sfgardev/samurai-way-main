@@ -2,7 +2,7 @@ import { createRef } from "react";
 import {
   ActionsType,
   MessagesPageType,
-  addMessageAC,
+  sendMessageAC,
   updateNewMessageAC,
 } from "../../redux/state";
 import DialogItem from "./DialogItem/DialogItem";
@@ -25,9 +25,9 @@ const Dialogs = (props: DialogsProps) => {
 
   const newMessageElement = createRef<HTMLTextAreaElement>();
 
-  const addMessage = () => {
+  const sendMessage = () => {
     if (newMessageElement.current) {
-      props.dispatch(addMessageAC());
+      props.dispatch(sendMessageAC());
     }
   };
 
@@ -40,15 +40,30 @@ const Dialogs = (props: DialogsProps) => {
   return (
     <div className={s.dialogs}>
       <div className={s.dialogsItems}>{dialogsElements}</div>
-      <div className={s.messages}>{messagesElements}</div>
-      <div>
+      <div className={s.messages}>
+        <div>{messagesElements}</div>
+        <div>
+          <div>
+            <textarea
+              ref={newMessageElement}
+              value={props.state.newMessageText}
+              placeholder="Enter your message"
+              onChange={handleChangeMessage}
+            />
+          </div>
+          <div>
+            <button onClick={sendMessage}>Send</button>
+          </div>
+        </div>
+      </div>
+      {/* <div>
         <textarea
           ref={newMessageElement}
           value={props.state.newMessageText}
           onChange={handleChangeMessage}
         />
         <button onClick={addMessage}>Add</button>
-      </div>
+      </div> */}
     </div>
   );
 };
