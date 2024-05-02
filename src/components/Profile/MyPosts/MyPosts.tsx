@@ -1,13 +1,13 @@
 import { createRef } from "react";
-import { ActionsType, PostType } from "../../../redux/store";
+import { PostType } from "../../../redux/store";
 import s from "./MyPosts.module.css";
 import Post from "./Post/Post";
-import { addPostAC, updateNewPostTextAC } from "../../../redux/profile-reducer";
 
 type MyPostsProps = {
   posts: PostType[];
+  addPost: () => void;
+  updateNewPostText: (text: string) => void;
   newPostText: string;
-  dispatch: (action: ActionsType) => void;
 };
 
 const MyPosts = (props: MyPostsProps) => {
@@ -18,12 +18,14 @@ const MyPosts = (props: MyPostsProps) => {
   const newPostElement = createRef<HTMLTextAreaElement>();
 
   const addPost = () => {
-    props.dispatch(addPostAC());
+    // props.dispatch(addPostAC());
+    props.addPost();
   };
 
   const onPostChange = () => {
     if (newPostElement.current) {
-      props.dispatch(updateNewPostTextAC(newPostElement.current.value));
+      props.updateNewPostText(newPostElement.current.value);
+      // props.dispatch(updateNewPostTextAC(newPostElement.current.value));
     }
   };
 

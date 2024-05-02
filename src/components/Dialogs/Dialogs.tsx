@@ -7,7 +7,9 @@ import { sendMessageAC, updateNewMessageAC } from "../../redux/dialogs-reducer";
 
 type DialogsProps = {
   state: MessagesPageType;
-  dispatch: (action: ActionsType) => void;
+  sendMessage: () => void;
+  changeMessage: (text: string) => void;
+  // dispatch: (action: ActionsType) => void;
 };
 
 const Dialogs = (props: DialogsProps) => {
@@ -22,14 +24,16 @@ const Dialogs = (props: DialogsProps) => {
   const newMessageElement = createRef<HTMLTextAreaElement>();
 
   const sendMessage = () => {
-    if (newMessageElement.current) {
-      props.dispatch(sendMessageAC());
-    }
+    // if (newMessageElement.current) {
+    //   props.dispatch(sendMessageAC());
+    // }
+    props.sendMessage();
   };
 
   const handleChangeMessage = () => {
     if (newMessageElement.current) {
-      props.dispatch(updateNewMessageAC(newMessageElement.current.value));
+      // props.dispatch(updateNewMessageAC(newMessageElement.current.value));
+      props.changeMessage(newMessageElement.current.value);
     }
   };
 

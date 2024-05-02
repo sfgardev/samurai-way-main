@@ -8,6 +8,8 @@ import News from "./components/News/News";
 import Profile from "./components/Profile/Profile";
 import Settings from "./components/Settings/Settings";
 import { ActionsType, RootStateType } from "./redux/store";
+import { AppRootState } from "./redux/redux-store";
+import DialogsContainer from "./components/Dialogs/DialogsContainer";
 
 type AppProps = {
   state: RootStateType;
@@ -28,7 +30,7 @@ const App = (props: AppProps) => {
           <Route
             path="/dialogs"
             render={() => (
-              <Dialogs
+              <DialogsContainer
                 state={props.state.dialogsPage}
                 dispatch={props.dispatch}
                 // addMessage={props.addMessage}

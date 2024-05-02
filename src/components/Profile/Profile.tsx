@@ -1,5 +1,5 @@
 import { ActionsType, ProfilePageType } from "../../redux/store";
-import MyPosts from "./MyPosts/MyPosts";
+import MyPostsContainer from "./MyPosts/MyPostsContainer";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 
 type ProfileProps = {
@@ -13,7 +13,7 @@ const Profile = (props: ProfileProps) => {
   return (
     <div>
       <ProfileInfo />
-      <MyPosts
+      <MyPostsContainer
         posts={props.profilePage.posts}
         newPostText={props.profilePage.newPostText}
         dispatch={props.dispatch}
