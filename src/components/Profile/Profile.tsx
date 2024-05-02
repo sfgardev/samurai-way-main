@@ -1,4 +1,4 @@
-import { ActionsType, ProfilePageType } from "../../redux/state";
+import { ActionsType, ProfilePageType } from "../../redux/store";
 import MyPosts from "./MyPosts/MyPosts";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 

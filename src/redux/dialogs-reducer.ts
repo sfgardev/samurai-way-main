@@ -1,4 +1,4 @@
-import { ActionsType, MessageType, MessagesPageType } from "./state";
+import { ActionsType, MessageType, MessagesPageType } from "./store";
 
 const SEND_MESSAGE = "SEND-MESSAGE";
 const UPDATE_NEW_MESSAGE = "UPDATE-NEW-MESSAGE";

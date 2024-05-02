@@ -7,7 +7,7 @@ import Navbar from "./components/Navbar/Navbar";
 import News from "./components/News/News";
 import Profile from "./components/Profile/Profile";
 import Settings from "./components/Settings/Settings";
-import { ActionsType, RootStateType } from "./redux/state";
+import { ActionsType, RootStateType } from "./redux/store";
 
 type AppProps = {
   state: RootStateType;

@@ -1,5 +1,5 @@
 import { createRef } from "react";
-import { ActionsType, MessagesPageType } from "../../redux/state";
+import { ActionsType, MessagesPageType } from "../../redux/store";
 import DialogItem from "./DialogItem/DialogItem";
 import s from "./Dialogs.module.css";
 import Message from "./Message/Message";
