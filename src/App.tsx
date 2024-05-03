@@ -1,24 +1,14 @@
 import { BrowserRouter, Route } from "react-router-dom";
 import "./App.css";
-import Dialogs from "./components/Dialogs/Dialogs";
+import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import Header from "./components/Header/Header";
 import Music from "./components/Music/Music";
 import Navbar from "./components/Navbar/Navbar";
 import News from "./components/News/News";
 import Profile from "./components/Profile/Profile";
 import Settings from "./components/Settings/Settings";
-import { ActionsType, RootStateType } from "./redux/store";
-import { AppRootState } from "./redux/redux-store";
-import DialogsContainer from "./components/Dialogs/DialogsContainer";
 
-type AppProps = {
-  state: RootStateType;
-  dispatch: (action: ActionsType) => void;
-  // addPost: () => void;
-  // updateNewPostText: (newText: string) => void;
-  // addMessage: () => void;
-  // updateNewMessage: (newMessage: string) => void;
-};
+type AppProps = {};
 
 const App = (props: AppProps) => {
   return (
@@ -27,28 +17,8 @@ const App = (props: AppProps) => {
         <Header />
         <Navbar />
         <div className="app-wrapper-content">
-          <Route
-            path="/dialogs"
-            render={() => (
-              <DialogsContainer
-                state={props.state.dialogsPage}
-                dispatch={props.dispatch}
-                // addMessage={props.addMessage}
-                // updateNewMessage={props.updateNewMessage}
-              />
-            )}
-          />
-          <Route
-            path="/profile"
-            render={() => (
-              <Profile
-                profilePage={props.state.profilePage}
-                dispatch={props.dispatch}
-                // addPost={props.addPost}
-                // updateNewPostText={props.updateNewPostText}
-              />
-            )}
-          />
+          <Route path="/dialogs" render={() => <DialogsContainer />} />
+          <Route path="/profile" render={() => <Profile />} />
           <Route path="/news" component={News} />
           <Route path="/music" component={Music} />
           <Route path="/settings" component={Settings} />
