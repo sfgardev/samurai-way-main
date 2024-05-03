@@ -6,18 +6,18 @@ import Message from "./Message/Message";
 import { sendMessageAC, updateNewMessageAC } from "../../redux/dialogs-reducer";
 
 type DialogsProps = {
-  state: MessagesPageType;
+  dialogsPage: MessagesPageType;
   sendMessage: () => void;
   changeMessage: (text: string) => void;
   // dispatch: (action: ActionsType) => void;
 };
 
 const Dialogs = (props: DialogsProps) => {
-  let dialogsElements = props.state.dialogs.map((dialog) => (
+  let dialogsElements = props.dialogsPage.dialogs.map((dialog) => (
     <DialogItem key={dialog.id} name={dialog.name} id={dialog.id} />
   ));
 
-  let messagesElements = props.state.messages.map((message) => (
+  let messagesElements = props.dialogsPage.messages.map((message) => (
     <Message key={message.id} message={message.message} />
   ));
 
@@ -46,7 +46,7 @@ const Dialogs = (props: DialogsProps) => {
           <div>
             <textarea
               ref={newMessageElement}
-              value={props.state.newMessageText}
+              value={props.dialogsPage.newMessageText}
               placeholder="Enter your message"
               onChange={handleChangeMessage}
             />
