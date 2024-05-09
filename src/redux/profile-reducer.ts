@@ -25,19 +25,21 @@ export const profileReducer = (
         likesCount: 0,
       };
 
-      const stateCopy = { ...state };
-      stateCopy.posts = [...state.posts];
-      stateCopy.posts.push(newPost);
-      stateCopy.newPostText = "";
-      return stateCopy;
+      return { ...state, newPostText: "", posts: [...state.posts, newPost] };
+      // const stateCopy = { ...state };
+      // stateCopy.posts = [...state.posts];
+      // stateCopy.posts.push(newPost);
+      // stateCopy.newPostText = "";
+      // return stateCopy;
       // state.posts.push(newPost);
       // state.newPostText = "";
       // return state;
     }
     case UPDATE_NEW_POST_TEXT: {
-      const stateCopy = { ...state };
-      stateCopy.newPostText = action.newText;
-      return stateCopy;
+      return { ...state, newPostText: action.newText };
+      // const stateCopy = { ...state };
+      // stateCopy.newPostText = action.newText;
+      // return stateCopy;
     }
     default:
       return state;
