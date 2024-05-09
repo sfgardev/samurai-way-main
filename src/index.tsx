@@ -6,16 +6,16 @@ import "./index.css";
 import store from "./redux/redux-store";
 import { Provider } from "react-redux";
 
-const rerenderEntireTree = (state: RootStateType) => {
-  ReactDOM.render(
-    <Provider store={store}>
-      <App />
-    </Provider>,
-    document.getElementById("root")
-  );
-};
+// const rerenderEntireTree = (state: RootStateType) => {
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById("root")
+);
+// };
 
-rerenderEntireTree(store.getState());
-store.subscribe(() => {
-  rerenderEntireTree(store.getState());
-});
+// rerenderEntireTree(store.getState());
+// store.subscribe(() => {
+//   rerenderEntireTree(store.getState());
+// });
