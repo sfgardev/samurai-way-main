@@ -16,7 +16,7 @@ export type UsersPageType = {
   users: UserType[];
 };
 
-export type ActionsType =
+export type UsersActionsType =
   | ReturnType<typeof followAC>
   | ReturnType<typeof unFollowAC>
   | ReturnType<typeof setUsersAC>;
@@ -31,7 +31,7 @@ const initialState: UsersPageType = {
 
 export const usersReducer = (
   state = initialState,
-  action: ActionsType
+  action: UsersActionsType
 ): UsersPageType => {
   switch (action.type) {
     case "FOLLOW":

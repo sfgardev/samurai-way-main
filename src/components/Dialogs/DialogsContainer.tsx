@@ -1,8 +1,13 @@
 import { connect } from "react-redux";
 // import { StoreContextConsumer } from "../../StoreContextConsumer";
-import { sendMessageAC, updateNewMessageAC } from "../../redux/dialogs-reducer";
+import {
+  DialogsActionsType,
+  MessagesPageType,
+  sendMessageAC,
+  updateNewMessageAC,
+} from "../../redux/dialogs-reducer";
 import { AppRootState, AppRootStore } from "../../redux/redux-store";
-import { ActionsType, MessagesPageType } from "../../redux/store";
+// import { ActionsType } from "../../redux/store";
 import Dialogs from "./Dialogs";
 import { Dispatch } from "redux";
 
@@ -23,7 +28,7 @@ const mapStateToProps = (state: AppRootState): MapStateProps => {
   };
 };
 const mapDispatchToProps = (
-  dispatch: Dispatch<ActionsType>
+  dispatch: Dispatch<DialogsActionsType>
 ): MapDispatchProps => {
   return {
     changeMessage: (text: string) => dispatch(updateNewMessageAC(text)),
