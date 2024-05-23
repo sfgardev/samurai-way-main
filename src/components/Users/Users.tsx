@@ -1,5 +1,8 @@
+import axios from "axios";
 import { UserType } from "../../redux/users-reducer";
 import styles from "./Users.module.css";
+import userImage from "../../assets/images/image.jpeg";
+import React, { useEffect } from "react";
 
 type UsersProps = {
   users: UserType[];
@@ -8,83 +11,145 @@ type UsersProps = {
   setUsers: (users: UserType[]) => void;
 };
 
-const Users = (props: UsersProps) => {
-  if (props.users.length === 0) {
-    props.setUsers([
-      {
-        id: 1,
-        photoUrl:
-          "https://ps.w.org/one-user-avatar/assets/icon-256x256.png?rev=2536829",
-        followed: false,
-        fullName: "Dmitry",
-        status: "I am a boss",
-        location: {
-          city: "Minsk",
-          country: "Belarus",
-        },
-      },
-      {
-        id: 2,
-        photoUrl:
-          "https://ps.w.org/one-user-avatar/assets/icon-256x256.png?rev=2536829",
-        followed: true,
-        fullName: "Sasha",
-        status: "I am a boss too",
-        location: {
-          city: "Moscow",
-          country: "Russia",
-        },
-      },
-      {
-        id: 3,
-        photoUrl:
-          "https://ps.w.org/one-user-avatar/assets/icon-256x256.png?rev=2536829",
-        followed: false,
-        fullName: "Andrew",
-        status: "I am a boss too",
-        location: {
-          city: "Ukraine",
-          country: "Kiev",
-        },
-      },
-    ]);
+type GetUsersResponse = {
+  items: UserType[];
+  totalCount: number;
+  error: string;
+};
+
+// const Users = (props: UsersProps) => {
+//   if (props.users.length === 0) {
+//     axios
+//       .get<GetUsersResponse>(
+//         "https://social-network.samuraijs.com/api/1.0/users"
+//       )
+//       .then((response) => {
+//         props.setUsers(response.data.items);
+//       });
+//   }
+
+//   // useEffect(() => {
+//   //   const promise = fetch("https://jsonplaceholder.typicode.com/posts/1000");
+
+//   //   promise
+//   //     .then((data) => {
+//   //       console.log(data);
+//   //       console.log("пользователь нашелся");
+//   //     })
+//   //     .catch((error) => {
+//   //       console.log(error.message);
+//   //       console.log("пользователь не нашелся");
+//   //     })
+//   //     .finally(() => console.log("запрос произведен"));
+//   // }, []);
+
+//   return (
+//     <div>
+//       {props.users.map((user) => (
+//         <div key={user.id}>
+//           <span>
+//             <div>
+//               <img
+//                 src={user.photos.small ? user.photos.small : userImage}
+//                 alt="Avatar"
+//                 className={styles.userPhoto}
+//                 height={100}
+//               />
+//             </div>
+//             <div>
+//               {user.followed ? (
+//                 <button onClick={() => props.unFollow(user.id)}>
+//                   Unfollow
+//                 </button>
+//               ) : (
+//                 <button onClick={() => props.follow(user.id)}>Follow</button>
+//               )}
+//             </div>
+//           </span>
+//           <span>
+//             <span>
+//               <div>{user.name}</div>
+//               <div>{user.status}</div>
+//             </span>
+//             <span>
+//               <div>{"user.location.country"}</div>
+//               <div>{"user.location.city"}</div>
+//             </span>
+//           </span>
+//         </div>
+//       ))}
+//     </div>
+//   );
+// };
+
+class Users extends React.Component<UsersProps> {
+  constructor(props: UsersProps) {
+    super(props);
+
+    alert(123);
+
+    axios
+      .get<GetUsersResponse>(
+        "https://social-network.samuraijs.com/api/1.0/users"
+      )
+      .then((response) => {
+        this.props.setUsers(response.data.items);
+      });
   }
 
-  return (
-    <div>
-      {props.users.map((user) => (
-        <div key={user.id}>
-          <span>
-            <div>
-              <img
-                src={user.photoUrl}
-                alt="Avatar"
-                className={styles.userPhoto}
-              />
-            </div>
-            <div>
-              {user.followed ? (
-                <button onClick={() => props.unFollow(user.id)}>
-                  Unfollow
-                </button>
-              ) : (
-                <button onClick={() => props.follow(user.id)}>Follow</button>
-              )}
-            </div>
-          </span>
-          <span>
+  // getUsers() {
+  //   if (this.props.users.length === 0) {
+  //     axios
+  //       .get<GetUsersResponse>(
+  //         "https://social-network.samuraijs.com/api/1.0/users"
+  //       )
+  //       .then((response) => {
+  //         this.props.setUsers(response.data.items);
+  //       });
+  //   }
+  // }
+
+  render() {
+    return (
+      <div>
+        {/* <button onClick={this.getUsers}>Get users</button> */}
+        {this.props.users.map((user) => (
+          <div key={user.id}>
             <span>
-              <div>{user.fullName}</div>
-              <div>{user.status}</div>
+              <div>
+                <img
+                  src={user.photos.small ? user.photos.small : userImage}
+                  alt="Avatar"
+                  className={styles.userPhoto}
+                  height={100}
+                />
+              </div>
+              <div>
+                {user.followed ? (
+                  <button onClick={() => this.props.unFollow(user.id)}>
+                    Unfollow
+                  </button>
+                ) : (
+                  <button onClick={() => this.props.follow(user.id)}>
+                    Follow
+                  </button>
+                )}
+              </div>
             </span>
             <span>
-              <div>{user.location.country}</div>
-              <div>{user.location.city}</div>
+              <span>
+                <div>{user.name}</div>
+                <div>{user.status}</div>
+              </span>
+              <span>
+                <div>{"user.location.country"}</div>
+                <div>{"user.location.city"}</div>
+              </span>
             </span>
-          </span>
-        </div>
-      ))}
-    </div>
-  );
-};
+          </div>
+        ))}
+      </div>
+    );
+  }
+}
 export default Users;
