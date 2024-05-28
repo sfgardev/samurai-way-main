@@ -10,7 +10,7 @@ import {
   setUsersAC,
   unFollowAC,
 } from "../../redux/users-reducer";
-import Users from "./Users";
+import UsersAPIComponent from "./UsersAPIComponent";
 
 type MapStateProps = {
   users: UserType[];
@@ -50,4 +50,4 @@ const mapDispatchToProps = (
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Users);
+export default connect(mapStateToProps, mapDispatchToProps)(UsersAPIComponent);
