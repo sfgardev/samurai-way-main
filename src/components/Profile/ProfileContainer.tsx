@@ -36,7 +36,6 @@ class ProfileContainer extends React.Component<ProfileContainerProps> {
   }
 
   render() {
-    console.log(this.props);
     return <Profile {...this.props} profile={this.props.profile} />;
   }
 }
