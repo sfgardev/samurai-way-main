@@ -1,5 +1,31 @@
 // import { ActionsType } from "./store";
 
+export type ProfileType = {
+  aboutMe: string;
+  contacts: Contacts;
+  lookingForAJob: boolean;
+  lookingForAJobDescription: string;
+  fullName: string;
+  userId: number;
+  photos: Photos;
+};
+
+type Contacts = {
+  facebook: string;
+  website: string;
+  vk: string;
+  twitter: string;
+  instagram: string;
+  youtube: string;
+  github: string;
+  mainLink: string;
+};
+
+type Photos = {
+  small: string;
+  large: string;
+};
+
 export type PostType = {
   id: number;
   message: string;
@@ -9,12 +35,14 @@ export type PostType = {
 export type ProfilePageType = {
   posts: PostType[];
   newPostText: string;
+  profile: ProfileType;
 };
 
 const ADD_POST = "ADD-POST";
 const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
+const SET_USER_PROFILE = "SET_USER_PROFILE";
 
-const initialState = {
+const initialState: ProfilePageType = {
   posts: [
     { id: 1, message: "Hi, how are you?", likesCount: 12 },
     { id: 2, message: "It's my first post", likesCount: 11 },
@@ -22,16 +50,38 @@ const initialState = {
     { id: 4, message: "Dada", likesCount: 11 },
   ],
   newPostText: "it-kamasutra",
+  profile: {
+    aboutMe: "",
+    contacts: {
+      facebook: "",
+      github: "",
+      instagram: "",
+      mainLink: "",
+      twitter: "",
+      vk: "",
+      website: "",
+      youtube: "",
+    },
+    fullName: "",
+    lookingForAJob: false,
+    lookingForAJobDescription: "",
+    photos: {
+      small: "",
+      large: "",
+    },
+    userId: 0,
+  },
 };
 
 export type ProfileActionsType =
   | ReturnType<typeof addPostAC>
-  | ReturnType<typeof updateNewPostTextAC>;
+  | ReturnType<typeof updateNewPostTextAC>
+  | ReturnType<typeof setUserProfile>;
 
 export const profileReducer = (
-  state: ProfilePageType = initialState,
+  state = initialState,
   action: ProfileActionsType
-) => {
+): ProfilePageType => {
   switch (action.type) {
     case ADD_POST: {
       const newPost: PostType = {
@@ -39,23 +89,13 @@ export const profileReducer = (
         message: state.newPostText,
         likesCount: 0,
       };
-
       return { ...state, newPostText: "", posts: [...state.posts, newPost] };
-      // const stateCopy = { ...state };
-      // stateCopy.posts = [...state.posts];
-      // stateCopy.posts.push(newPost);
-      // stateCopy.newPostText = "";
-      // return stateCopy;
-      // state.posts.push(newPost);
-      // state.newPostText = "";
-      // return state;
     }
     case UPDATE_NEW_POST_TEXT: {
       return { ...state, newPostText: action.newText };
-      // const stateCopy = { ...state };
-      // stateCopy.newPostText = action.newText;
-      // return stateCopy;
     }
+    case "SET_USER_PROFILE":
+      return { ...state, profile: action.profile };
     default:
       return state;
   }
@@ -67,4 +107,10 @@ export const updateNewPostTextAC = (newText: string) =>
   ({
     type: UPDATE_NEW_POST_TEXT,
     newText,
+  } as const);
+
+export const setUserProfile = (profile: any) =>
+  ({
+    type: SET_USER_PROFILE,
+    profile,
   } as const);

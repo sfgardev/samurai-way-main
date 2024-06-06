@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import userImage from "../../assets/images/image.jpeg";
 import { UserType } from "../../redux/users-reducer";
 import styles from "./Users.module.css";
@@ -33,12 +34,14 @@ const Users = (props: UsersProps) => {
         <div key={user.id}>
           <span>
             <div>
-              <img
-                src={user.photos.small ? user.photos.small : userImage}
-                alt="Avatar"
-                className={styles.userPhoto}
-                height={100}
-              />
+              <NavLink to={`/profile/${user.id}`}>
+                <img
+                  src={user.photos.small ? user.photos.small : userImage}
+                  alt="Avatar"
+                  className={styles.userPhoto}
+                  height={100}
+                />
+              </NavLink>
             </div>
             <div>
               {user.followed ? (

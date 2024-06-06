@@ -1,25 +1,17 @@
 // import { ActionsType } from "../../redux/store";
+import { ProfileType } from "../../redux/profile-reducer";
 import MyPostsContainer from "./MyPosts/MyPostsContainer";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 
 type ProfileProps = {
-  // profilePage: ProfilePageType;
-  // dispatch: (action: ActionsType) => void;
-  // addPost: () => void;
-  // updateNewPostText: (newText: string) => void;
+  profile: ProfileType;
 };
 
 const Profile = (props: ProfileProps) => {
   return (
     <div>
-      <ProfileInfo />
-      <MyPostsContainer
-      // posts={props.profilePage.posts}
-      // newPostText={props.profilePage.newPostText}
-      // dispatch={props.dispatch}
-      // addPost={props.addPost}
-      // updateNewPostText={props.updateNewPostText}
-      />
+      <ProfileInfo profile={props.profile} />
+      <MyPostsContainer />
     </div>
   );
 };
