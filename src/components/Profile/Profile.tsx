@@ -1,10 +1,9 @@
-// import { ActionsType } from "../../redux/store";
-import { ProfileType } from "../../redux/profile-reducer";
+import { ProfileModel } from "../../api/api";
 import MyPostsContainer from "./MyPosts/MyPostsContainer";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 
 type ProfileProps = {
-  profile: ProfileType;
+  profile: ProfileModel;
 };
 
 const Profile = (props: ProfileProps) => {

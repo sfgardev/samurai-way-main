@@ -1,7 +1,6 @@
-export type AuthType = {
-  userId: number | null;
-  email: string | null;
-  login: string | null;
+import { UserModel } from "../api/api";
+
+export type AuthType = UserModel & {
   isAuth: boolean;
   isFetching: boolean;
 };
@@ -9,9 +8,9 @@ export type AuthType = {
 type AuthActionsType = ReturnType<typeof setUserData>;
 
 const initialState: AuthType = {
-  userId: null,
-  email: null,
-  login: null,
+  id: -1,
+  email: "",
+  login: "",
   isAuth: false,
   isFetching: false,
 };

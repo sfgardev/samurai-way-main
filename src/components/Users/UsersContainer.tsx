@@ -1,9 +1,9 @@
+import React from "react";
 import { connect } from "react-redux";
-import { Dispatch } from "redux";
+import { usersAPI } from "../../api/api";
 import { AppRootState } from "../../redux/redux-store";
 import {
   UserType,
-  UsersActionsType,
   follow,
   setCurrentPage,
   setTotalUsersCount,
@@ -11,11 +11,8 @@ import {
   toggleIsFetching,
   unFollow,
 } from "../../redux/users-reducer";
-import axios from "axios";
-import React from "react";
-import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
-// import UsersAPIComponent from "./UsersAPIComponent";
+import Users from "./Users";
 
 type UsersContainerProps = {
   users: UserType[];
@@ -29,12 +26,6 @@ type UsersContainerProps = {
   setCurrentPage: (currentPage: number) => void;
   setTotalUsersCount: (usersCount: number) => void;
   toggleIsFetching: (isFetching: boolean) => void;
-};
-
-export type GetUsersResponse = {
-  items: UserType[];
-  totalCount: number;
-  error: string;
 };
 
 type MapStateProps = {
@@ -57,30 +48,24 @@ type MapStateProps = {
 class UsersContainer extends React.Component<UsersContainerProps> {
   componentDidMount() {
     this.props.toggleIsFetching(true);
-    axios
-      .get<GetUsersResponse>(
-        `https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${this.props.currentPage}`,
-        { withCredentials: true }
-      )
-      .then((response) => {
+
+    usersAPI
+      .getUsers(this.props.pageSize, this.props.currentPage)
+      .then((data) => {
         this.props.toggleIsFetching(false);
-        this.props.setUsers(response.data.items);
-        this.props.setTotalUsersCount(response.data.totalCount);
+        this.props.setUsers(data.items);
+        this.props.setTotalUsersCount(data.totalCount);
       });
   }
 
   handleChangePage = (page: number) => {
     this.props.setCurrentPage(page);
     this.props.toggleIsFetching(true);
-    axios
-      .get<GetUsersResponse>(
-        `https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${page}`,
-        { withCredentials: true }
-      )
-      .then((response) => {
-        this.props.toggleIsFetching(false);
-        this.props.setUsers(response.data.items);
-      });
+
+    usersAPI.getUsers(this.props.pageSize, page).then((data) => {
+      this.props.toggleIsFetching(false);
+      this.props.setUsers(data.items);
+    });
   };
 
   render() {

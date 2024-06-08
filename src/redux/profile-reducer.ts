@@ -1,30 +1,4 @@
-// import { ActionsType } from "./store";
-
-export type ProfileType = {
-  aboutMe: string;
-  contacts: Contacts;
-  lookingForAJob: boolean;
-  lookingForAJobDescription: string;
-  fullName: string;
-  userId: number;
-  photos: Photos;
-};
-
-type Contacts = {
-  facebook: string;
-  website: string;
-  vk: string;
-  twitter: string;
-  instagram: string;
-  youtube: string;
-  github: string;
-  mainLink: string;
-};
-
-type Photos = {
-  small: string;
-  large: string;
-};
+import { ProfileModel } from "../api/api";
 
 export type PostType = {
   id: number;
@@ -35,7 +9,7 @@ export type PostType = {
 export type ProfilePageType = {
   posts: PostType[];
   newPostText: string;
-  profile: ProfileType;
+  profile: ProfileModel;
 };
 
 const ADD_POST = "ADD-POST";

@@ -1,9 +1,9 @@
-import { ProfileType } from "../../../redux/profile-reducer";
+import { ProfileModel } from "../../../api/api";
 import Preloader from "../../common/Preloader/Preloader";
 import s from "./ProfileInfo.module.css";
 
 type ProfileInfoProps = {
-  profile: ProfileType;
+  profile: ProfileModel;
 };
 
 const ProfileInfo = (props: ProfileInfoProps) => {
