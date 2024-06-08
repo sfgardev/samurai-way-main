@@ -31,7 +31,7 @@ type UsersContainerProps = {
   toggleIsFetching: (isFetching: boolean) => void;
 };
 
-type GetUsersResponse = {
+export type GetUsersResponse = {
   items: UserType[];
   totalCount: number;
   error: string;
@@ -59,7 +59,8 @@ class UsersContainer extends React.Component<UsersContainerProps> {
     this.props.toggleIsFetching(true);
     axios
       .get<GetUsersResponse>(
-        `https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${this.props.currentPage}`
+        `https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${this.props.currentPage}`,
+        { withCredentials: true }
       )
       .then((response) => {
         this.props.toggleIsFetching(false);
@@ -73,7 +74,8 @@ class UsersContainer extends React.Component<UsersContainerProps> {
     this.props.toggleIsFetching(true);
     axios
       .get<GetUsersResponse>(
-        `https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${page}`
+        `https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${page}`,
+        { withCredentials: true }
       )
       .then((response) => {
         this.props.toggleIsFetching(false);

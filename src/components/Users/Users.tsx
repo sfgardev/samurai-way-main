@@ -1,3 +1,4 @@
+import axios from "axios";
 import { NavLink } from "react-router-dom";
 import userImage from "../../assets/images/image.jpeg";
 import { UserType } from "../../redux/users-reducer";
@@ -11,6 +12,13 @@ type UsersProps = {
   follow: (userId: number) => void;
   unFollow: (userId: number) => void;
   onChangePage: (usersCount: number) => void;
+};
+
+type ResponseType<D = {}> = {
+  resultCode: number;
+  messages: string[];
+  fieldsErrors: [];
+  data: D;
 };
 
 const Users = (props: UsersProps) => {
@@ -45,11 +53,50 @@ const Users = (props: UsersProps) => {
             </div>
             <div>
               {user.followed ? (
-                <button onClick={() => props.unFollow(user.id)}>
+                <button
+                  onClick={() => {
+                    axios
+                      .delete<ResponseType>(
+                        `https://social-network.samuraijs.com/api/1.0/follow/${user.id}`,
+                        {
+                          withCredentials: true,
+                          headers: {
+                            "API-KEY": "1a29ecc2-ab9c-42ea-aefe-c8cdd94fe0a2",
+                          },
+                        }
+                      )
+                      .then((response) => {
+                        if (response.data.resultCode === 0) {
+                          props.unFollow(user.id);
+                        }
+                      });
+                  }}
+                >
                   Unfollow
                 </button>
               ) : (
-                <button onClick={() => props.follow(user.id)}>Follow</button>
+                <button
+                  onClick={() => {
+                    axios
+                      .post<ResponseType>(
+                        `https://social-network.samuraijs.com/api/1.0/follow/${user.id}`,
+                        null,
+                        {
+                          withCredentials: true,
+                          headers: {
+                            "API-KEY": "1a29ecc2-ab9c-42ea-aefe-c8cdd94fe0a2",
+                          },
+                        }
+                      )
+                      .then((response) => {
+                        if (response.data.resultCode === 0) {
+                          props.follow(user.id);
+                        }
+                      });
+                  }}
+                >
+                  Follow
+                </button>
               )}
             </div>
           </span>
