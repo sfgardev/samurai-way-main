@@ -1,5 +1,5 @@
 import { Dispatch } from "redux";
-import { UserModel, usersAPI } from "../api/api";
+import { UserModel, authApi } from "../api/api";
 
 export type AuthType = UserModel & {
   isAuth: boolean;
@@ -33,7 +33,8 @@ export const setUserData = (userId: number, email: string, login: string) =>
 
 // thunks
 export const getUserDataTC = () => (dispatch: Dispatch) => {
-  usersAPI.getAuthData().then((data) => {
+  authApi.getAuthData().then((data) => {
+    console.log(data);
     if (data.resultCode === 0) {
       const { id, email, login } = data.data;
       dispatch(setUserData(id, email, login));

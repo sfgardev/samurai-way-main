@@ -1,6 +1,7 @@
 import { ProfileModel } from "../../../api/api";
 import Preloader from "../../common/Preloader/Preloader";
 import s from "./ProfileInfo.module.css";
+import userImage from "../../../assets/images/image.jpeg";
 
 type ProfileInfoProps = {
   profile: ProfileModel;
@@ -20,7 +21,15 @@ const ProfileInfo = (props: ProfileInfoProps) => {
         />
       </div>
       <div className={s.descriptionBlock}>
-        <img src={props.profile.photos.small} alt={props.profile.fullName} />
+        <img
+          width={100}
+          src={
+            props.profile.photos.small || props.profile.photos.large
+              ? props.profile.photos.small || props.profile.photos.large
+              : userImage
+          }
+          alt={props.profile.fullName}
+        />
         ava + desc
       </div>
     </div>

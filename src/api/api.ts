@@ -25,14 +25,18 @@ export const usersAPI = {
       .delete<ResponseType>(`follow/${userId}`)
       .then((response) => response.data);
   },
-  getAuthData() {
-    return instance
-      .get<ResponseType<UserModel>>("auth/me")
-      .then((response) => response.data);
-  },
+
   getUserProfile(userId: string) {
     return instance
       .get<ProfileModel>(`profile/${userId}`)
+      .then((response) => response.data);
+  },
+};
+
+export const authApi = {
+  getAuthData() {
+    return instance
+      .get<ResponseType<UserModel>>("auth/me")
       .then((response) => response.data);
   },
 };
