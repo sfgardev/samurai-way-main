@@ -1,20 +1,19 @@
 import { connect } from "react-redux";
-// import { StoreContextConsumer } from "../../StoreContextConsumer";
 import {
   DialogsActionsType,
   MessagesPageType,
   sendMessageAC,
   updateNewMessageAC,
 } from "../../redux/dialogs-reducer";
-import { AppRootState, AppRootStore } from "../../redux/redux-store";
-// import { ActionsType } from "../../redux/store";
-import Dialogs from "./Dialogs";
+import { AppRootState } from "../../redux/redux-store";
 import { Dispatch } from "redux";
+import Dialogs from "./Dialogs";
 
 type DialogsContainerProps = {};
 
 type MapStateProps = {
   dialogsPage: MessagesPageType;
+  isAuth: boolean;
 };
 
 type MapDispatchProps = {
@@ -25,6 +24,7 @@ type MapDispatchProps = {
 const mapStateToProps = (state: AppRootState): MapStateProps => {
   return {
     dialogsPage: state.dialogsPage,
+    isAuth: state.auth.isAuth,
   };
 };
 const mapDispatchToProps = (

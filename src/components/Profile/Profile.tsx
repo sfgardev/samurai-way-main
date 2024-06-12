@@ -4,12 +4,13 @@ import ProfileInfo from "./ProfileInfo/ProfileInfo";
 
 type ProfileProps = {
   profile: ProfileModel;
+  isAuth: boolean;
 };
 
 const Profile = (props: ProfileProps) => {
   return (
     <div>
-      <ProfileInfo profile={props.profile} />
+      <ProfileInfo profile={props.profile} isAuth={props.isAuth} />
       <MyPostsContainer />
     </div>
   );

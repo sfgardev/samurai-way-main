@@ -1,16 +1,14 @@
 import { createRef } from "react";
 // import { ActionsType } from "../../redux/store";
+import { MessagesPageType } from "../../redux/dialogs-reducer";
 import DialogItem from "./DialogItem/DialogItem";
 import s from "./Dialogs.module.css";
 import Message from "./Message/Message";
-import {
-  MessagesPageType,
-  sendMessageAC,
-  updateNewMessageAC,
-} from "../../redux/dialogs-reducer";
+import { Redirect } from "react-router-dom";
 
 type DialogsProps = {
   dialogsPage: MessagesPageType;
+  isAuth: boolean;
   sendMessage: () => void;
   changeMessage: (text: string) => void;
   // dispatch: (action: ActionsType) => void;
@@ -33,6 +31,10 @@ const Dialogs = (props: DialogsProps) => {
     // }
     props.sendMessage();
   };
+
+  if (!props.isAuth) {
+    return <Redirect to="/login" />;
+  }
 
   const handleChangeMessage = () => {
     if (newMessageElement.current) {

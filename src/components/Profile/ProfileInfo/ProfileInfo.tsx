@@ -5,6 +5,7 @@ import userImage from "../../../assets/images/image.jpeg";
 
 type ProfileInfoProps = {
   profile: ProfileModel;
+  isAuth: boolean;
 };
 
 const ProfileInfo = (props: ProfileInfoProps) => {

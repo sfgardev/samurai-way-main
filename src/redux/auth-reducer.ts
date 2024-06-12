@@ -34,7 +34,6 @@ export const setUserData = (userId: number, email: string, login: string) =>
 // thunks
 export const getUserDataTC = () => (dispatch: Dispatch) => {
   authApi.getAuthData().then((data) => {
-    console.log(data);
     if (data.resultCode === 0) {
       const { id, email, login } = data.data;
       dispatch(setUserData(id, email, login));
