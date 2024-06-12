@@ -1,4 +1,5 @@
-import { ProfileModel } from "../api/api";
+import { Dispatch } from "redux";
+import { ProfileModel, usersAPI } from "../api/api";
 
 export type PostType = {
   id: number;
@@ -75,6 +76,7 @@ export const profileReducer = (
   }
 };
 
+// actions
 export const addPostAC = () => ({ type: ADD_POST } as const);
 
 export const updateNewPostTextAC = (newText: string) =>
@@ -88,3 +90,16 @@ export const setUserProfile = (profile: any) =>
     type: SET_USER_PROFILE,
     profile,
   } as const);
+
+// thunks
+export const getUserProfileTC = (userId: string) => (dispatch: Dispatch) => {
+  // let userId = this.props.match.params.userId;
+
+  //   if (!userId) {
+  //     userId = "2";
+  //   }
+
+  usersAPI.getUserProfile(userId).then((data) => {
+    dispatch(setUserProfile(data));
+  });
+};

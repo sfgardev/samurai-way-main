@@ -1,8 +1,9 @@
 import { usersReducer } from "./users-reducer";
-import { combineReducers, createStore } from "redux";
+import { applyMiddleware, combineReducers, createStore } from "redux";
 import { profileReducer } from "./profile-reducer";
 import { dialogsReducer } from "./dialogs-reducer";
 import { authReducer } from "./auth-reducer";
+import thunk from "redux-thunk";
 
 const rootReducer = combineReducers({
   profilePage: profileReducer,
@@ -11,7 +12,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
 });
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, applyMiddleware(thunk));
 // console.log(store.getState())
 
 export type AppRootStore = typeof store;

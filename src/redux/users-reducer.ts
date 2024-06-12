@@ -1,3 +1,6 @@
+import { Dispatch } from "redux";
+import { usersAPI } from "../api/api";
+
 type PhotoType = {
   small: string;
   large: string;
@@ -22,8 +25,8 @@ export type UsersPageType = {
 };
 
 export type UsersActionsType =
-  | ReturnType<typeof follow>
-  | ReturnType<typeof unFollow>
+  | ReturnType<typeof followSuccess>
+  | ReturnType<typeof unFollowSuccess>
   | ReturnType<typeof setUsers>
   | ReturnType<typeof setCurrentPage>
   | ReturnType<typeof setTotalUsersCount>
@@ -86,8 +89,10 @@ export const usersReducer = (
   }
 };
 
-export const follow = (userId: number) => ({ type: FOLLOW, userId } as const);
-export const unFollow = (userId: number) =>
+// actions
+export const followSuccess = (userId: number) =>
+  ({ type: FOLLOW, userId } as const);
+export const unFollowSuccess = (userId: number) =>
   ({ type: UNFOLLOW, userId } as const);
 export const setUsers = (users: UserType[]) =>
   ({ type: SET_USERS, users } as const);
@@ -99,3 +104,35 @@ export const toggleIsFetching = (isFetching: boolean) =>
   ({ type: TOGGLE_IS_FETCHING, isFetching } as const);
 export const toggleFollowing = (id: number, isInProgress: boolean) =>
   ({ type: TOGGLE_FOLLOWING_IN_PROGRESS, id, isInProgress } as const);
+
+// thunks
+export const getUsersTC =
+  (pageSize: number, currentPage: number) => (dispatch: Dispatch) => {
+    dispatch(toggleIsFetching(true));
+    usersAPI.getUsers(pageSize, currentPage).then((data) => {
+      dispatch(setCurrentPage(currentPage));
+      dispatch(toggleIsFetching(false));
+      dispatch(setUsers(data.items));
+      dispatch(setTotalUsersCount(data.totalCount));
+    });
+  };
+
+export const followTC = (id: number) => (dispatch: Dispatch) => {
+  dispatch(toggleFollowing(id, true));
+  usersAPI.followUser(id).then((data) => {
+    if (data.resultCode === 0) {
+      dispatch(followSuccess(id));
+    }
+    dispatch(toggleFollowing(id, false));
+  });
+};
+
+export const unFollowTC = (id: number) => (dispatch: Dispatch) => {
+  dispatch(toggleFollowing(id, true));
+  usersAPI.unFollowUser(id).then((data) => {
+    if (data.resultCode === 0) {
+      dispatch(unFollowSuccess(id));
+    }
+    dispatch(toggleFollowing(id, false));
+  });
+};

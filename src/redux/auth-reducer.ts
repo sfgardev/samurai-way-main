@@ -1,4 +1,5 @@
-import { UserModel } from "../api/api";
+import { Dispatch } from "redux";
+import { UserModel, usersAPI } from "../api/api";
 
 export type AuthType = UserModel & {
   isAuth: boolean;
@@ -26,5 +27,23 @@ export const authReducer = (state = initialState, action: AuthActionsType) => {
   }
 };
 
+// actions
 export const setUserData = (userId: number, email: string, login: string) =>
   ({ type: SET_USER_DATA, data: { userId, email, login } } as const);
+
+// thunks
+export const getUserDataTC = () => (dispatch: Dispatch) => {
+  usersAPI.getAuthData().then((data) => {
+    if (data.resultCode === 0) {
+      const { id, email, login } = data.data;
+      dispatch(setUserData(id, email, login));
+    }
+  });
+
+  // usersAPI.getAuthData().then((data) => {
+  //   if (data.resultCode === 0) {
+  //     const { id, email, login } = data.data;
+  //     this.props.setUserData(id, email, login);
+  //   }
+  // });
+};
