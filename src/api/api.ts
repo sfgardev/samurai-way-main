@@ -5,7 +5,7 @@ const instance = axios.create({
   baseURL: "https://social-network.samuraijs.com/api/1.0/",
   withCredentials: true,
   headers: {
-    "API-KEY": "1a29ecc2-ab9c-42ea-aefe-c8cdd94fe0a2",
+    "API-KEY": process.env.REACT_APP_API_KEY!,
   },
 });
 
@@ -25,15 +25,23 @@ export const usersAPI = {
       .delete<ResponseType>(`follow/${userId}`)
       .then((response) => response.data);
   },
+};
 
+export const profileAPI = {
   getUserProfile(userId: string) {
     return instance
       .get<ProfileModel>(`profile/${userId}`)
       .then((response) => response.data);
   },
+  getStatus(userId: string) {
+    return instance.get(`profile/status/${userId}`);
+  },
+  updateStatus(status: string) {
+    return instance.put<ResponseType>("profile/status", { status });
+  },
 };
 
-export const authApi = {
+export const authAPI = {
   getAuthData() {
     return instance
       .get<ResponseType<UserModel>>("auth/me")

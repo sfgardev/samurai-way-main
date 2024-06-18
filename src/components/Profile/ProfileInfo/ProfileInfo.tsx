@@ -7,6 +7,8 @@ import ProfileStatus from "./ProfileStatus";
 type ProfileInfoProps = {
   profile: ProfileModel;
   isAuth: boolean;
+  status: string;
+  updateStatus: (status: string) => void;
 };
 
 const ProfileInfo = (props: ProfileInfoProps) => {
@@ -32,7 +34,10 @@ const ProfileInfo = (props: ProfileInfoProps) => {
           }
           alt={props.profile.fullName}
         />
-        <ProfileStatus status="hello friendo" />
+        <ProfileStatus
+          status={props.status}
+          updateStatus={props.updateStatus}
+        />
       </div>
     </div>
   );
