@@ -2,6 +2,7 @@ import { ProfileModel } from "../../../api/api";
 import Preloader from "../../common/Preloader/Preloader";
 import s from "./ProfileInfo.module.css";
 import userImage from "../../../assets/images/image.jpeg";
+import ProfileStatus from "./ProfileStatus";
 
 type ProfileInfoProps = {
   profile: ProfileModel;
@@ -15,12 +16,12 @@ const ProfileInfo = (props: ProfileInfoProps) => {
 
   return (
     <div>
-      <div>
+      {/* <div>
         <img
           src="https://cc-prod.scene7.com/is/image/CCProdAuthor/t-03-4?$pjpeg$&jpegSize=200&wid=720"
           alt=""
         />
-      </div>
+      </div> */}
       <div className={s.descriptionBlock}>
         <img
           width={100}
@@ -31,7 +32,7 @@ const ProfileInfo = (props: ProfileInfoProps) => {
           }
           alt={props.profile.fullName}
         />
-        ava + desc
+        <ProfileStatus status="hello friendo" />
       </div>
     </div>
   );
