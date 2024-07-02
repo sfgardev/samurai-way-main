@@ -2,13 +2,13 @@ import {
   MessagesPageType,
   dialogsReducer,
   sendMessageAC,
-  updateNewMessageAC,
+  // updateNewMessageAC,
 } from "./dialogs-reducer";
 import {
   ProfilePageType,
   addPostAC,
   profileReducer,
-  updateNewPostTextAC,
+  // updateNewPostTextAC,
 } from "./profile-reducer";
 
 // export type PostType = {

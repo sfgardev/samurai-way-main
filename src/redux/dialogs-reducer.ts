@@ -13,11 +13,9 @@ export type MessageType = {
 export type MessagesPageType = {
   dialogs: DialogsType[];
   messages: MessageType[];
-  newMessageText: string;
 };
 
 const SEND_MESSAGE = "SEND-MESSAGE";
-const UPDATE_NEW_MESSAGE = "UPDATE-NEW-MESSAGE";
 
 const initialState: MessagesPageType = {
   messages: [
@@ -35,12 +33,9 @@ const initialState: MessagesPageType = {
     { id: 5, name: "Viktor" },
     { id: 6, name: "Valera" },
   ],
-  newMessageText: "it-kamasutra",
 };
 
-export type DialogsActionsType =
-  | ReturnType<typeof sendMessageAC>
-  | ReturnType<typeof updateNewMessageAC>;
+export type DialogsActionsType = ReturnType<typeof sendMessageAC>;
 
 export const dialogsReducer = (
   state = initialState,
@@ -50,39 +45,18 @@ export const dialogsReducer = (
     case SEND_MESSAGE: {
       const newMessage: MessageType = {
         id: state.messages.length + 1,
-        message: state.newMessageText,
+        message: action.newMessageBody,
       };
       return {
         ...state,
-        newMessageText: "",
         messages: [...state.messages, newMessage],
       };
-      // const stateCopy = { ...state };
-      // stateCopy.messages = [...state.messages];
-      // stateCopy.messages.push(newMessage);
-      // stateCopy.newMessageText = "";
-      // return stateCopy;
-      // state.messages.push(newMessage);
-      // state.newMessageText = "";
-      // return state;
     }
-    case UPDATE_NEW_MESSAGE: {
-      return { ...state, newMessageText: action.newMessage };
-      // const stateCopy = { ...state };
-      // stateCopy.newMessageText = action.newMessage;
-      // return stateCopy;
-      // state.newMessageText = action.newMessage;
-      // return state;
-    }
+
     default:
       return state;
   }
 };
 
-export const sendMessageAC = () => ({ type: SEND_MESSAGE } as const);
-
-export const updateNewMessageAC = (newMessage: string) =>
-  ({
-    type: UPDATE_NEW_MESSAGE,
-    newMessage,
-  } as const);
+export const sendMessageAC = (newMessageBody: string) =>
+  ({ type: SEND_MESSAGE, newMessageBody } as const);

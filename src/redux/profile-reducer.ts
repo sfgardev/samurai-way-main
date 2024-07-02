@@ -9,13 +9,12 @@ export type PostType = {
 
 export type ProfilePageType = {
   posts: PostType[];
-  newPostText: string;
   profile: ProfileModel;
   status: string;
 };
 
 const ADD_POST = "ADD-POST";
-const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
+// const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
 const SET_USER_PROFILE = "SET_USER_PROFILE";
 const SET_STATUS = "SET_STATUS";
 
@@ -26,7 +25,6 @@ const initialState: ProfilePageType = {
     { id: 3, message: "Blabla", likesCount: 11 },
     { id: 4, message: "Dada", likesCount: 11 },
   ],
-  newPostText: "it-kamasutra",
   profile: {
     aboutMe: "",
     contacts: {
@@ -53,7 +51,7 @@ const initialState: ProfilePageType = {
 
 export type ProfileActionsType =
   | ReturnType<typeof addPostAC>
-  | ReturnType<typeof updateNewPostTextAC>
+  // | ReturnType<typeof updateNewPostTextAC>
   | ReturnType<typeof setUserProfileAC>
   | ReturnType<typeof setStatusAC>;
 
@@ -65,14 +63,14 @@ export const profileReducer = (
     case ADD_POST: {
       const newPost: PostType = {
         id: state.posts.length + 1,
-        message: state.newPostText,
+        message: action.newPostBody,
         likesCount: 0,
       };
-      return { ...state, newPostText: "", posts: [...state.posts, newPost] };
+      return { ...state, posts: [...state.posts, newPost] };
     }
-    case UPDATE_NEW_POST_TEXT: {
-      return { ...state, newPostText: action.newText };
-    }
+    // case UPDATE_NEW_POST_TEXT: {
+    //   return { ...state, newPostText: action.newText };
+    // }
     case SET_USER_PROFILE:
       return { ...state, profile: action.profile };
     case SET_STATUS:
@@ -83,13 +81,14 @@ export const profileReducer = (
 };
 
 // actions
-export const addPostAC = () => ({ type: ADD_POST } as const);
+export const addPostAC = (newPostBody: string) =>
+  ({ type: ADD_POST, newPostBody } as const);
 
-export const updateNewPostTextAC = (newText: string) =>
-  ({
-    type: UPDATE_NEW_POST_TEXT,
-    newText,
-  } as const);
+// export const updateNewPostTextAC = (newText: string) =>
+//   ({
+//     type: UPDATE_NEW_POST_TEXT,
+//     newText,
+//   } as const);
 
 export const setUserProfileAC = (profile: any) =>
   ({

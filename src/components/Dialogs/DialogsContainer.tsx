@@ -4,7 +4,6 @@ import {
   DialogsActionsType,
   MessagesPageType,
   sendMessageAC,
-  updateNewMessageAC,
 } from "../../redux/dialogs-reducer";
 import { AppRootState } from "../../redux/redux-store";
 import Dialogs from "./Dialogs";
@@ -19,8 +18,8 @@ type MapStateProps = {
 };
 
 type MapDispatchProps = {
-  changeMessage: (text: string) => void;
-  sendMessage: () => void;
+  // changeMessage: (text: string) => void;
+  sendMessage: (newMessageBody: string) => void;
 };
 
 const mapStateToProps = (state: AppRootState): MapStateProps => {
@@ -33,8 +32,8 @@ const mapDispatchToProps = (
   dispatch: Dispatch<DialogsActionsType>
 ): MapDispatchProps => {
   return {
-    changeMessage: (text: string) => dispatch(updateNewMessageAC(text)),
-    sendMessage: () => dispatch(sendMessageAC()),
+    // changeMessage: (text: string) => dispatch(updateNewMessageAC(text)),
+    sendMessage: (newMessageBody: string) => dispatch(sendMessageAC(newMessageBody)),
   };
 };
 
