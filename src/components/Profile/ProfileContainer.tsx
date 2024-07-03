@@ -1,8 +1,8 @@
 import React, { ComponentType } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router-dom";
+import { compose } from "redux";
 import { ProfileModel } from "../../api/api";
-import { withAuthRedirect } from "../../hoc/withAuthRedirect";
 import {
   getUserProfileTC,
   getUserStatusTC,
@@ -10,7 +10,6 @@ import {
 } from "../../redux/profile-reducer";
 import { AppRootState } from "../../redux/redux-store";
 import Profile from "./Profile";
-import { compose } from "redux";
 
 type MapStateProps = {
   profile: ProfileModel;
@@ -38,6 +37,9 @@ class ProfileContainer extends React.Component<ProfileContainerProps> {
     if (!userId) {
       // userId = "31109";
       userId = String(this.props.authorizedUserId);
+      if(!userId) {
+        this.props.history.push('/login')
+      }
     }
 
     this.props.getUserProfileTC(userId);

@@ -24,8 +24,6 @@ const SET_USER_DATA = "SET_USER_DATA";
 export const authReducer = (state = initialState, action: AuthActionsType) => {
   switch (action.type) {
     case "SET_USER_DATA":
-      console.log(action.payload.userId);
-      // debugger
       return { ...state, ...action.payload, id: action.payload.userId };
     default:
       return state;
@@ -42,11 +40,10 @@ export const setUserData = (
   ({ type: SET_USER_DATA, payload: { userId, email, login, isAuth } } as const);
 
 // thunks
-export const getUserDataTC = () => (dispatch: Dispatch) => {
-  authAPI.getAuthData().then((data) => {
+export const getUserDataTC = () => async (dispatch: Dispatch) => {
+  return authAPI.getAuthData().then((data) => {
     if (data.resultCode === 0) {
       const { id, email, login } = data.data;
-      // debugger
       dispatch(setUserData(id, email, login, true));
     }
   });

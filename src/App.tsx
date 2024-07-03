@@ -1,20 +1,40 @@
-import { BrowserRouter, Route } from "react-router-dom";
+import { Component, ComponentType } from "react";
+import { connect } from "react-redux";
+import { Route, withRouter } from "react-router-dom";
+import { compose } from "redux";
 import "./App.css";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
+import Login from "./components/Login/Login";
 import Music from "./components/Music/Music";
 import Navbar from "./components/Navbar/Navbar";
 import News from "./components/News/News";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import Settings from "./components/Settings/Settings";
 import UsersContainer from "./components/Users/UsersContainer";
-import Login from "./components/Login/Login";
+import { initializeApp } from "./redux/app-reducer";
+import { AppRootState } from "./redux/redux-store";
+import Preloader from "./components/common/Preloader/Preloader";
 
-type AppProps = {};
+type AppProps = {
+  isInitialized: boolean;
+  initializeApp: () => void;
+};
 
-const App = (props: AppProps) => {
-  return (
-    <BrowserRouter>
+type MapStateProps = {
+  isInitialized: boolean;
+};
+
+class App extends Component<AppProps> {
+  componentDidMount() {
+    this.props.initializeApp();
+  }
+
+  render() {
+    console.log(this.props.isInitialized)
+    if (!this.props.isInitialized) return <Preloader />;
+
+    return (
       <div className="app-wrapper">
         <HeaderContainer />
         <Navbar />
@@ -29,8 +49,17 @@ const App = (props: AppProps) => {
           <Route path="/settings" component={Settings} />
         </div>
       </div>
-    </BrowserRouter>
-  );
+    );
+  }
+}
+
+const mapStateToProps = (state: AppRootState): MapStateProps => {
+  return {
+    isInitialized: state.app.isInitialized,
+  };
 };
 
-export default App;
+export default compose<ComponentType>(
+  connect(mapStateToProps, { initializeApp }),
+  withRouter
+)(App);
