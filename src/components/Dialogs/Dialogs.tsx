@@ -1,11 +1,9 @@
-import { createRef } from "react";
 // import { ActionsType } from "../../redux/store";
 import { MessagesPageType } from "../../redux/dialogs-reducer";
+import AddMessageForm, { FormDataType } from "./AddMessageForm/AddMessageForm";
 import DialogItem from "./DialogItem/DialogItem";
 import s from "./Dialogs.module.css";
 import Message from "./Message/Message";
-import { Redirect } from "react-router-dom";
-import { Field, InjectedFormProps, reduxForm } from "redux-form";
 
 type DialogsProps = {
   dialogsPage: MessagesPageType;
@@ -15,9 +13,9 @@ type DialogsProps = {
   // dispatch: (action: ActionsType) => void;
 };
 
-type FormDataType = {
-  newMessageBody: string;
-};
+// type FormDataType = {
+//   newMessageBody: string;
+// };
 
 const Dialogs = (props: DialogsProps) => {
   let dialogsElements = props.dialogsPage.dialogs.map((dialog) => (
@@ -58,31 +56,10 @@ const Dialogs = (props: DialogsProps) => {
       <div className={s.dialogsItems}>{dialogsElements}</div>
       <div className={s.messages}>
         <div>{messagesElements}</div>
-        <AddMessageFormRedux onSubmit={addNewMessage} />
+        <AddMessageForm onSubmit={addNewMessage} />
       </div>
     </div>
   );
 };
-
-const AddMessageForm = (props: InjectedFormProps<FormDataType>) => {
-  return (
-    <form onSubmit={props.handleSubmit}>
-      <div>
-        <Field
-          component="textarea"
-          name="newMessageBody"
-          placeholder="Enter your message..."
-        />
-      </div>
-      <div>
-        <button>Send</button>
-      </div>
-    </form>
-  );
-};
-
-const AddMessageFormRedux = reduxForm<FormDataType>({
-  form: "dialogAddMessageForm",
-})(AddMessageForm);
 
 export default Dialogs;
