@@ -33,9 +33,7 @@ export const initializedSuccessAC = () => ({ type: INITIALIZED_SUCCESS });
 // thunks
 export const initializeApp =
   () => (dispatch: ThunkDispatch<AppRootState, unknown, AnyAction>) => {
-    console.log("first");
     dispatch(getUserDataTC()).finally(() => {
-      console.log("second");
       dispatch(initializedSuccessAC());
     });
   };
