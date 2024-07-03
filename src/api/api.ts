@@ -47,6 +47,24 @@ export const authAPI = {
       .get<ResponseType<UserModel>>("auth/me")
       .then((response) => response.data);
   },
+  login(arg: LoginRequestArgs) {
+    return instance.post<ResponseType<LoginDataModel>>("auth/login", arg);
+  },
+  logout() {
+    return instance.delete<ResponseType>("auth/login");
+  },
+};
+
+export type LoginDataModel = {
+  userId: number;
+  token: string;
+};
+
+export type LoginRequestArgs = {
+  email: string;
+  password: string;
+  rememberMe?: boolean;
+  captcha?: string;
 };
 
 export type GetUsersResponse = {

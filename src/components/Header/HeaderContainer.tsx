@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getUserDataTC } from "../../redux/auth-reducer";
+import { getUserDataTC, logoutTC } from "../../redux/auth-reducer";
 import { AppRootState } from "../../redux/redux-store";
 import Header from "./Header";
 
@@ -8,6 +8,7 @@ type HeaderContainerProps = {
   isAuth: boolean;
   login: string | null;
   getUserDataTC: () => void;
+  logoutTC: () => void;
 };
 
 class HeaderContainer extends React.Component<HeaderContainerProps> {
@@ -27,4 +28,6 @@ const mapStateToProps = (state: AppRootState) => {
   };
 };
 
-export default connect(mapStateToProps, { getUserDataTC })(HeaderContainer);
+export default connect(mapStateToProps, { getUserDataTC, logoutTC })(
+  HeaderContainer
+);
