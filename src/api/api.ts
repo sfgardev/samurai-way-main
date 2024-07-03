@@ -82,7 +82,7 @@ export type ResponseType<D = {}> = {
 
 export type UserModel = {
   email: string;
-  id: number;
+  id: number | null;
   login: string;
 };
 

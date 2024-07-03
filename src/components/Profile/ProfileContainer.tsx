@@ -15,7 +15,8 @@ import { compose } from "redux";
 type MapStateProps = {
   profile: ProfileModel;
   status: string;
-  // isAuth: boolean;
+  authorizedUserId: number | null;
+  isAuth: boolean;
 };
 
 type PathParamsType = {
@@ -24,8 +25,9 @@ type PathParamsType = {
 
 type ProfileContainerProps = RouteComponentProps<PathParamsType> & {
   profile: ProfileModel;
-  isAuth: boolean;
   status: string;
+  isAuth: boolean;
+  authorizedUserId: number | null;
   getUserProfileTC: (id: string) => void;
   getUserStatusTC: (id: string) => void;
   updateStatusTC: (status: string) => void;
@@ -33,9 +35,9 @@ type ProfileContainerProps = RouteComponentProps<PathParamsType> & {
 class ProfileContainer extends React.Component<ProfileContainerProps> {
   componentDidMount() {
     let userId = this.props.match.params.userId;
-
     if (!userId) {
-      userId = "31109";
+      // userId = "31109";
+      userId = String(this.props.authorizedUserId);
     }
 
     this.props.getUserProfileTC(userId);
@@ -80,6 +82,8 @@ const mapStateToProps = (state: AppRootState): MapStateProps => {
   return {
     profile: state.profilePage.profile,
     status: state.profilePage.status,
+    authorizedUserId: state.auth.id,
+    isAuth: state.auth.isAuth,
   };
 };
 
