@@ -3,6 +3,7 @@ import Preloader from "../../common/Preloader/Preloader";
 import s from "./ProfileInfo.module.css";
 import userImage from "../../../assets/images/image.jpeg";
 import ProfileStatus from "./ProfileStatus";
+import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 
 type ProfileInfoProps = {
   profile: ProfileModel;
@@ -34,7 +35,7 @@ const ProfileInfo = (props: ProfileInfoProps) => {
           }
           alt={props.profile.fullName}
         />
-        <ProfileStatus
+        <ProfileStatusWithHooks
           status={props.status}
           updateStatus={props.updateStatus}
         />
