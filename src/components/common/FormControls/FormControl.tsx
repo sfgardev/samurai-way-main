@@ -1,6 +1,8 @@
-import { HTMLAttributes } from "react";
-import { WrappedFieldProps } from "redux-form";
+import { Component, HTMLAttributes, ReactComponentElement, ReactNode } from "react";
+import { Field, WrappedFieldProps } from "redux-form";
 import styles from "./FormControls.module.css";
+import { required } from "../../../utils/validators";
+import { JsxElement } from "typescript";
 
 type FormControlProps = WrappedFieldProps &
   HTMLAttributes<HTMLInputElement | HTMLTextAreaElement>;
@@ -31,5 +33,30 @@ export const Input = (props: FormControlProps) => {
     <FormControl {...props}>
       <input {...input} {...props} />
     </FormControl>
+  );
+};
+
+// type CreateFieldProps = {
+//   placeholder: string;
+//   name: string;
+//   component: Component;
+//   validators: Function[];
+// };
+
+export const createField = (
+  name: string,
+  component: ReactNode,
+  validators: Function[],
+  type: string,
+  placeholder?: string,
+) => {
+  return (
+    <Field
+      name={name}
+      component={component}
+      placeholder={placeholder}
+      validate={validators}
+      type={type}
+    />
   );
 };

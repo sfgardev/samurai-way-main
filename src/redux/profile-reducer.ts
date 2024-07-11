@@ -104,28 +104,44 @@ export const deletePostAC = (postId: number) =>
   ({ type: DELETE_POST, postId } as const);
 
 // thunks
-export const getUserProfileTC = (userId: string) => (dispatch: Dispatch) => {
-  // let userId = this.props.match.params.userId;
+export const getUserProfileTC =
+  (userId: string) => async (dispatch: Dispatch) => {
+    // let userId = this.props.match.params.userId;
 
-  //   if (!userId) {
-  //     userId = "2";
-  //   }
+    //   if (!userId) {
+    //     userId = "2";
+    //   }
 
-  profileAPI.getUserProfile(userId).then((data) => {
+    const data = await profileAPI.getUserProfile(userId);
     dispatch(setUserProfileAC(data));
-  });
-};
 
-export const getUserStatusTC = (userId: string) => (dispatch: Dispatch) => {
-  profileAPI.getStatus(userId).then((response) => {
+    // profileAPI.getUserProfile(userId).then((data) => {
+    //   dispatch(setUserProfileAC(data));
+    // });
+  };
+
+export const getUserStatusTC =
+  (userId: string) => async (dispatch: Dispatch) => {
+    const response = await profileAPI.getStatus(userId);
+
     dispatch(setStatusAC(response.data));
-  });
-};
 
-export const updateStatusTC = (status: string) => (dispatch: Dispatch) => {
-  profileAPI.updateStatus(status).then((response) => {
+    // profileAPI.getStatus(userId).then((response) => {
+    //   dispatch(setStatusAC(response.data));
+    // });
+  };
+
+export const updateStatusTC =
+  (status: string) => async (dispatch: Dispatch) => {
+    const response = await profileAPI.updateStatus(status);
+
     if (response.data.resultCode === 0) {
       dispatch(setStatusAC(status));
     }
-  });
-};
+
+    // profileAPI.updateStatus(status).then((response) => {
+    //   if (response.data.resultCode === 0) {
+    //     dispatch(setStatusAC(status));
+    //   }
+    // });
+  };

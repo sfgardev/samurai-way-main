@@ -41,37 +41,64 @@ export const setUserData = (
 
 // thunks
 export const getUserDataTC = () => async (dispatch: Dispatch) => {
-  return authAPI.getAuthData().then((data) => {
-    if (data.resultCode === 0) {
-      const { id, email, login } = data.data;
-      dispatch(setUserData(id, email, login, true));
-    }
-  });
+  const data = await authAPI.getAuthData();
+
+  if (data.resultCode === 0) {
+    const { id, email, login } = data.data;
+    dispatch(setUserData(id, email, login, true));
+  }
+
+  // return authAPI.getAuthData().then((data) => {
+  //   if (data.resultCode === 0) {
+  //     const { id, email, login } = data.data;
+  //     dispatch(setUserData(id, email, login, true));
+  //   }
+  // });
 };
 
 export const loginTC =
   (arg: LoginRequestArgs) =>
-  (dispatch: ThunkDispatch<AppRootStore, unknown, AnyAction>) => {
-    authAPI.login(arg).then((response) => {
-      if (response.data.resultCode === 0) {
-        dispatch(getUserDataTC());
-      } else {
-        const message =
-          response.data.messages.length > 0
-            ? response.data.messages[0]
-            : "Some error";
+  async (dispatch: ThunkDispatch<AppRootStore, unknown, AnyAction>) => {
+    const response = await authAPI.login(arg);
 
-        console.log(message);
-        dispatch(stopSubmit("login", { _error: message }));
-      }
-    });
+    if (response.data.resultCode === 0) {
+      dispatch(getUserDataTC());
+    } else {
+      const message =
+        response.data.messages.length > 0
+          ? response.data.messages[0]
+          : "Some error";
+
+      console.log(message);
+      dispatch(stopSubmit("login", { _error: message }));
+    }
+
+    // authAPI.login(arg).then((response) => {
+    //   if (response.data.resultCode === 0) {
+    //     dispatch(getUserDataTC());
+    //   } else {
+    //     const message =
+    //       response.data.messages.length > 0
+    //         ? response.data.messages[0]
+    //         : "Some error";
+
+    //     console.log(message);
+    //     dispatch(stopSubmit("login", { _error: message }));
+    //   }
+    // });
   };
 
 export const logoutTC =
-  () => (dispatch: ThunkDispatch<AppRootStore, unknown, AnyAction>) => {
-    authAPI.logout().then((response) => {
-      if (response.data.resultCode === 0) {
-        dispatch(setUserData(null, "", "", false));
-      }
-    });
+  () => async (dispatch: ThunkDispatch<AppRootStore, unknown, AnyAction>) => {
+    const response = await authAPI.logout();
+
+    if (response.data.resultCode === 0) {
+      dispatch(setUserData(null, "", "", false));
+    }
+
+    // authAPI.logout().then((response) => {
+    //   if (response.data.resultCode === 0) {
+    //     dispatch(setUserData(null, "", "", false));
+    //   }
+    // });
   };

@@ -1,5 +1,6 @@
 import { Dispatch } from "redux";
-import { usersAPI } from "../api/api";
+import { ResponseType, usersAPI } from "../api/api";
+import { updateObjecInArray } from "../utils/helpers/object-helpers";
 
 type PhotoType = {
   small: string;
@@ -58,16 +59,22 @@ export const usersReducer = (
     case FOLLOW:
       return {
         ...state,
-        users: state.users.map((user) =>
-          user.id === action.userId ? { ...user, followed: true } : user
-        ),
+        users: updateObjecInArray(state.users, action.userId, "id", {
+          followed: true,
+        }),
+        // users: state.users.map((user) =>
+        //   user.id === action.userId ? { ...user, followed: true } : user
+        // ),
       };
     case UNFOLLOW:
       return {
         ...state,
-        users: state.users.map((user) =>
-          user.id === action.userId ? { ...user, followed: false } : user
-        ),
+        users: updateObjecInArray(state.users, action.userId, "id", {
+          followed: false,
+        }),
+        // users: state.users.map((user) =>
+        //   user.id === action.userId ? { ...user, followed: false } : user
+        // ),
       };
     case SET_USERS:
       return { ...state, users: action.users };
@@ -89,6 +96,22 @@ export const usersReducer = (
   }
 };
 
+const followUnfollow = async (
+  dispatch: Dispatch,
+  id: number,
+  apiMethod: (id: number) => Promise<ResponseType>,
+  actionCreator: (id: number) => UsersActionsType
+) => {
+  dispatch(toggleFollowing(id, true));
+
+  const data = await apiMethod(id);
+
+  if (data.resultCode === 0) {
+    dispatch(actionCreator(id));
+  }
+  dispatch(toggleFollowing(id, false));
+};
+
 // actions
 export const followSuccess = (userId: number) =>
   ({ type: FOLLOW, userId } as const);
@@ -107,32 +130,66 @@ export const toggleFollowing = (id: number, isInProgress: boolean) =>
 
 // thunks
 export const getUsersTC =
-  (pageSize: number, currentPage: number) => (dispatch: Dispatch) => {
+  (pageSize: number, currentPage: number) => async (dispatch: Dispatch) => {
     dispatch(toggleIsFetching(true));
-    usersAPI.getUsers(pageSize, currentPage).then((data) => {
-      dispatch(setCurrentPage(currentPage));
-      dispatch(toggleIsFetching(false));
-      dispatch(setUsers(data.items));
-      dispatch(setTotalUsersCount(data.totalCount));
-    });
+
+    const data = await usersAPI.getUsers(pageSize, currentPage);
+
+    dispatch(setCurrentPage(currentPage));
+    dispatch(toggleIsFetching(false));
+    dispatch(setUsers(data.items));
+    dispatch(setTotalUsersCount(data.totalCount));
+
+    // usersAPI.getUsers(pageSize, currentPage).then((data) => {
+    //   dispatch(setCurrentPage(currentPage));
+    //   dispatch(toggleIsFetching(false));
+    //   dispatch(setUsers(data.items));
+    //   dispatch(setTotalUsersCount(data.totalCount));
+    // });
   };
 
-export const followTC = (id: number) => (dispatch: Dispatch) => {
-  dispatch(toggleFollowing(id, true));
-  usersAPI.followUser(id).then((data) => {
-    if (data.resultCode === 0) {
-      dispatch(followSuccess(id));
-    }
-    dispatch(toggleFollowing(id, false));
-  });
+export const followTC = (id: number) => async (dispatch: Dispatch) => {
+  const apiMethod = usersAPI.followUser.bind(usersAPI);
+  const actionCreator = followSuccess;
+
+  followUnfollow(dispatch, id, apiMethod, actionCreator);
+
+  // dispatch(toggleFollowing(id, true));
+
+  // const data = await apiMethod(id);
+
+  // if (data.resultCode === 0) {
+  //   dispatch(actionCreator(id));
+  // }
+  // dispatch(toggleFollowing(id, false));
+
+  // usersAPI.followUser(id).then((data) => {
+  //   if (data.resultCode === 0) {
+  //     dispatch(followSuccess(id));
+  //   }
+  //   dispatch(toggleFollowing(id, false));
+  // });
 };
 
-export const unFollowTC = (id: number) => (dispatch: Dispatch) => {
-  dispatch(toggleFollowing(id, true));
-  usersAPI.unFollowUser(id).then((data) => {
-    if (data.resultCode === 0) {
-      dispatch(unFollowSuccess(id));
-    }
-    dispatch(toggleFollowing(id, false));
-  });
+export const unFollowTC = (id: number) => async (dispatch: Dispatch) => {
+  const apiMethod = usersAPI.unFollowUser.bind(usersAPI);
+  const actionCreator = unFollowSuccess;
+
+  followUnfollow(dispatch, id, apiMethod, actionCreator);
+
+  // dispatch(toggleFollowing(id, true));
+
+  // const data = await apiMethod(id);
+
+  // if (data.resultCode === 0) {
+  //   dispatch(actionCreator(id));
+  // }
+  // dispatch(toggleFollowing(id, false));
+
+  // usersAPI.unFollowUser(id).then((data) => {
+  //   if (data.resultCode === 0) {
+  //     dispatch(unFollowSuccess(id));
+  //   }
+  //   dispatch(toggleFollowing(id, false));
+  // });
 };
