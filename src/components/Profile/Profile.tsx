@@ -9,6 +9,7 @@ type ProfileProps = {
   isOwner: boolean;
   updateStatus: (status: string) => void;
   savePhoto: (photo: File) => void;
+  saveProfile: (formData:any) => Promise<any>
 };
 
 const Profile = (props: ProfileProps) => {
@@ -21,6 +22,7 @@ const Profile = (props: ProfileProps) => {
         isOwner={props.isOwner}
         updateStatus={props.updateStatus}
         savePhoto={props.savePhoto}
+        saveProfile={props.saveProfile}
       />
       <MyPostsContainer />
     </div>

@@ -1,5 +1,7 @@
-import { Dispatch } from "redux";
+import { AnyAction, Dispatch } from "redux";
 import { ProfileModel, profileAPI } from "../api/api";
+import { AppRootState } from "./redux-store";
+import { ThunkDispatch } from "redux-thunk";
 
 export type PostType = {
   id: number;
@@ -112,7 +114,7 @@ export const savePhotoSuccessAC = (photos: ProfileModel["photos"]) =>
 
 // thunks
 export const getUserProfileTC =
-  (userId: string) => async (dispatch: Dispatch) => {
+  (userId: number) => async (dispatch: Dispatch) => {
     // let userId = this.props.match.params.userId;
 
     //   if (!userId) {
@@ -160,3 +162,18 @@ export const savePhotoTC = (file: File) => async (dispatch: Dispatch) => {
     dispatch(savePhotoSuccessAC(response.data.data.photos));
   }
 };
+
+export const saveProfileTC =
+  (profile: any) =>
+  async (
+    dispatch: ThunkDispatch<AppRootState, unknown, AnyAction>,
+    getState: () => AppRootState
+  ) => {
+    const id = getState().auth.id;
+
+    const response = await profileAPI.saveProfile(profile);
+
+    if (response.data.resultCode === 0) {
+      if (id) dispatch(getUserProfileTC(id));
+    }
+  };

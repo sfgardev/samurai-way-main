@@ -7,6 +7,7 @@ import {
   getUserProfileTC,
   getUserStatusTC,
   savePhotoTC,
+  saveProfileTC,
   updateStatusTC,
 } from "../../redux/profile-reducer";
 import { AppRootState } from "../../redux/redux-store";
@@ -32,6 +33,7 @@ type ProfileContainerProps = RouteComponentProps<PathParamsType> & {
   getUserStatusTC: (id: string) => void;
   updateStatusTC: (status: string) => void;
   savePhotoTC: (photo: File) => void;
+  saveProfileTC: (formData: any) => Promise<any>;
 };
 class ProfileContainer extends React.Component<ProfileContainerProps> {
   refreshProfile() {
@@ -74,6 +76,7 @@ class ProfileContainer extends React.Component<ProfileContainerProps> {
         status={this.props.status}
         updateStatus={this.props.updateStatusTC}
         savePhoto={this.props.savePhotoTC}
+        saveProfile={this.props.saveProfileTC}
       />
     );
   }
@@ -118,6 +121,7 @@ export default compose<ComponentType>(
     getUserStatusTC,
     updateStatusTC,
     savePhotoTC,
+    saveProfileTC,
   }),
   withRouter
   // withAuthRedirect

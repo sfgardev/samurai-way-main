@@ -28,7 +28,7 @@ export const usersAPI = {
 };
 
 export const profileAPI = {
-  getUserProfile(userId: string) {
+  getUserProfile(userId: number) {
     return instance
       .get<ProfileModel>(`profile/${userId}`)
       .then((response) => response.data);
@@ -51,6 +51,9 @@ export const profileAPI = {
         },
       }
     );
+  },
+  saveProfile(profile: ProfileModel) {
+    return instance.put<ResponseType>("profile", profile);
   },
 };
 
@@ -109,7 +112,7 @@ export type ProfileModel = {
   photos: PhotosModel;
 };
 
-type ContactsModel = {
+export type ContactsModel = {
   facebook: string;
   website: string;
   vk: string;
