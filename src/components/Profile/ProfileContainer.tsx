@@ -6,6 +6,7 @@ import { ProfileModel } from "../../api/api";
 import {
   getUserProfileTC,
   getUserStatusTC,
+  savePhotoTC,
   updateStatusTC,
 } from "../../redux/profile-reducer";
 import { AppRootState } from "../../redux/redux-store";
@@ -30,20 +31,34 @@ type ProfileContainerProps = RouteComponentProps<PathParamsType> & {
   getUserProfileTC: (id: string) => void;
   getUserStatusTC: (id: string) => void;
   updateStatusTC: (status: string) => void;
+  savePhotoTC: (photo: File) => void;
 };
 class ProfileContainer extends React.Component<ProfileContainerProps> {
-  componentDidMount() {
+  refreshProfile() {
     let userId = this.props.match.params.userId;
     if (!userId) {
-      // userId = "31109";
       userId = String(this.props.authorizedUserId);
-      if(!userId) {
-        this.props.history.push('/login')
+      if (!userId) {
+        this.props.history.push("/login");
       }
     }
 
     this.props.getUserProfileTC(userId);
     this.props.getUserStatusTC(userId);
+  }
+
+  componentDidMount() {
+    this.refreshProfile();
+  }
+
+  componentDidUpdate(
+    prevProps: Readonly<ProfileContainerProps>,
+    prevState: Readonly<{}>,
+    snapshot?: any
+  ): void {
+    if (this.props.match.params.userId !== prevProps.match.params.userId) {
+      this.refreshProfile();
+    }
   }
 
   render() {
@@ -54,9 +69,11 @@ class ProfileContainer extends React.Component<ProfileContainerProps> {
     return (
       <Profile
         {...this.props}
+        isOwner={!this.props.match.params.userId}
         profile={this.props.profile}
         status={this.props.status}
         updateStatus={this.props.updateStatusTC}
+        savePhoto={this.props.savePhotoTC}
       />
     );
   }
@@ -100,6 +117,7 @@ export default compose<ComponentType>(
     getUserProfileTC,
     getUserStatusTC,
     updateStatusTC,
+    savePhotoTC,
   }),
   withRouter
   // withAuthRedirect

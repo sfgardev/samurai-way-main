@@ -18,6 +18,7 @@ const ADD_POST = "ADD-POST";
 const SET_USER_PROFILE = "SET_USER_PROFILE";
 const SET_STATUS = "SET_STATUS";
 const DELETE_POST = "DELETE_POST";
+const SAVE_PHOTO_SUCCESS = "SAVE_PHOTO_SUCCESS";
 
 const initialState: ProfilePageType = {
   posts: [
@@ -55,7 +56,8 @@ export type ProfileActionsType =
   // | ReturnType<typeof updateNewPostTextAC>
   | ReturnType<typeof setUserProfileAC>
   | ReturnType<typeof setStatusAC>
-  | ReturnType<typeof deletePostAC>;
+  | ReturnType<typeof deletePostAC>
+  | ReturnType<typeof savePhotoSuccessAC>;
 
 export const profileReducer = (
   state = initialState,
@@ -82,6 +84,8 @@ export const profileReducer = (
         ...state,
         posts: state.posts.filter((post) => post.id !== action.postId),
       };
+    case SAVE_PHOTO_SUCCESS:
+      return { ...state, profile: { ...state.profile, photos: action.photos } };
     default:
       return state;
   }
@@ -102,6 +106,9 @@ export const setStatusAC = (status: string) =>
 
 export const deletePostAC = (postId: number) =>
   ({ type: DELETE_POST, postId } as const);
+
+export const savePhotoSuccessAC = (photos: ProfileModel["photos"]) =>
+  ({ type: SAVE_PHOTO_SUCCESS, photos } as const);
 
 // thunks
 export const getUserProfileTC =
@@ -145,3 +152,11 @@ export const updateStatusTC =
     //   }
     // });
   };
+
+export const savePhotoTC = (file: File) => async (dispatch: Dispatch) => {
+  const response = await profileAPI.savePhoto(file);
+
+  if (response.data.resultCode === 0) {
+    dispatch(savePhotoSuccessAC(response.data.data.photos));
+  }
+};

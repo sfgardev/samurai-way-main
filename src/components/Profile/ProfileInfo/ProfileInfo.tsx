@@ -4,18 +4,27 @@ import s from "./ProfileInfo.module.css";
 import userImage from "../../../assets/images/image.jpeg";
 import ProfileStatus from "./ProfileStatus";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
+import { ChangeEvent } from "react";
 
 type ProfileInfoProps = {
   profile: ProfileModel;
   isAuth: boolean;
   status: string;
+  isOwner: boolean;
   updateStatus: (status: string) => void;
+  savePhoto: (photo: File) => void;
 };
 
 const ProfileInfo = (props: ProfileInfoProps) => {
   if (!props.profile) {
     return <Preloader />;
   }
+
+  const handleSelectPhoto = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files?.length) {
+      props.savePhoto(e.target.files[0]);
+    }
+  };
 
   return (
     <div>
@@ -35,6 +44,7 @@ const ProfileInfo = (props: ProfileInfoProps) => {
           }
           alt={props.profile.fullName}
         />
+        {props.isOwner && <input type="file" onChange={handleSelectPhoto} />}
         <ProfileStatusWithHooks
           status={props.status}
           updateStatus={props.updateStatus}
