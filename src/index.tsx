@@ -1,19 +1,19 @@
 // import { RootStateType } from "./redux/store";
 
 import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { HashRouter } from "react-router-dom";
 import App from "./App";
 import "./index.css";
 import store from "./redux/redux-store";
-import { Provider } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
 
 // const rerenderEntireTree = (state: RootStateType) => {
 ReactDOM.render(
-  <BrowserRouter>
+  <HashRouter>
     <Provider store={store}>
       <App />
     </Provider>
-  </BrowserRouter>,
+  </HashRouter>,
   document.getElementById("root")
 );
 // };
