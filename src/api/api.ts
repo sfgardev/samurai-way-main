@@ -71,6 +71,12 @@ export const authAPI = {
   },
 };
 
+export const securityAPI = {
+  getCaptchaUrl() {
+    return instance.get<{ url: string }>("security/get-captcha-url");
+  },
+};
+
 export type LoginDataModel = {
   userId: number;
   token: string;

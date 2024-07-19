@@ -12,6 +12,7 @@ type FormDataType = {
   email: string;
   password: string;
   rememberMe: boolean;
+  captcha: string | null;
 };
 
 const LoginForm = (props: InjectedFormProps<FormDataType>) => {
@@ -41,6 +42,11 @@ const LoginForm = (props: InjectedFormProps<FormDataType>) => {
         remember me
         {/* {createField("rememberMe", Input, [], "checkbox")} */}
       </div>
+      {/* @ts-ignore */}
+      {props.captchaUrl && <img src={props.captchaUrl} alt="" />}
+      {/* @ts-ignore */}
+      {props.captchaUrl &&
+        createField("captcha", Input, [required], "text", "")}
       {props.error && (
         <div className={styles.formSummaryError}>{props.error}</div>
       )}
@@ -57,17 +63,19 @@ const LoginReduxForm = reduxForm<FormDataType>({
 
 type LoginProps = {
   isAuth: boolean;
+  captchaUrl: string | null;
   loginTC: (arg: LoginRequestArgs) => void;
 };
 
 type MapStateProps = {
   isAuth: boolean;
+  captchaUrl: string | null;
 };
 
 const Login = (props: LoginProps) => {
   const onSubmit = (formData: FormDataType) => {
-    const { email, password, rememberMe } = formData;
-    props.loginTC({ email, password, rememberMe });
+    const { email, password, rememberMe, captcha } = formData;
+    props.loginTC({ email, password, rememberMe, captcha: captcha! });
   };
 
   if (props.isAuth) return <Redirect to="/profile" />;
@@ -75,7 +83,8 @@ const Login = (props: LoginProps) => {
   return (
     <div>
       <h1>Login</h1>
-      <LoginReduxForm onSubmit={onSubmit} />
+      {/* @ts-ignore */}
+      <LoginReduxForm captchaUrl={props.captchaUrl} onSubmit={onSubmit} />
     </div>
   );
 };
@@ -83,6 +92,7 @@ const Login = (props: LoginProps) => {
 const mapStateToProps = (state: AppRootState): MapStateProps => {
   return {
     isAuth: state.auth.isAuth,
+    captchaUrl: state.auth.captchaUrl,
   };
 };
 
